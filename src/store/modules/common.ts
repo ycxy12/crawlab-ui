@@ -8,7 +8,7 @@ const {
 export default {
   namespaced: true,
   state: {
-    lang: localStorage.getItem('lang') || 'en',
+    lang: localStorage.getItem('lang') || 'zh',
     systemInfo: undefined,
   },
   mutations: {
