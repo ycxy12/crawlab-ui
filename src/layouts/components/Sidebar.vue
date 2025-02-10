@@ -21,15 +21,17 @@
           v-if="!siteTitle.value?.customize_site_title || !siteTitle.value?.site_title"
           class="logo"
         >
-          <img class="logo-img" alt="logo-img" :src="logo"/>
-          <span class="logo-sub-title">
+          <img class="logo-img" alt="logo-img" :src="logoIcon"/>
+          <span class="logo-sub-title">情报采集分析</span>
+          <!-- <span class="logo-sub-title">
             <div class="logo-sub-title-block">
               {{ t(systemInfo.edition || '') }}
             </div>
             <div class="logo-sub-title-block">
               {{ systemInfo.version }}
             </div>
-          </span>
+          </span> -->
+
         </div>
         <div v-else class="logo-title">
           {{ siteTitle.value?.site_title }}
@@ -72,7 +74,7 @@ import {computed, defineComponent} from 'vue';
 import {useStore} from 'vuex';
 import {useRoute, useRouter} from 'vue-router';
 import logo from '@/assets/svg/logo-white.svg';
-import logoIcon from '@/assets/svg/logo-icon-white.svg';
+import logoIcon from '@/assets/svg/logo.svg';
 import {getPrimaryPath} from '@/utils/path';
 import {useI18n} from 'vue-i18n';
 import urljoin from 'url-join';
@@ -223,11 +225,11 @@ export default defineComponent({
 
       .logo-sub-title {
         font-family: BlinkMacSystemFont, -apple-system, segoe ui, roboto, oxygen, ubuntu, cantarell, fira sans, droid sans, helvetica neue, helvetica, arial, sans-serif;
-        font-size: 10px;
+        font-size: 18px;
         height: 24px;
         line-height: 24px;
         margin-left: 10px;
-        font-weight: 500;
+        font-weight: 600;
         color: var(--cl-menu-text);
 
         .logo-sub-title-block {

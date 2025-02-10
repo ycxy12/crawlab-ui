@@ -1,4 +1,4 @@
-import {createRouter as createVueRouter, createWebHashHistory, Router, RouteRecordRaw} from 'vue-router';
+import { createRouter as createVueRouter, createWebHashHistory, Router, RouteRecordRaw } from 'vue-router';
 import login from '@/router/login';
 import home from '@/router/home';
 import node from '@/router/node';
@@ -16,9 +16,9 @@ import ds from '@/router/ds';
 import environment from '@/router/environment';
 import system from '@/router/system';
 import misc from '@/router/misc';
-import {initRouterAuth} from '@/router/hooks/auth';
-import {initRouterStats} from '@/router/hooks/stats';
-import {ROUTER_ROOT_NAME_ROOT} from '@/constants/router';
+import { initRouterAuth } from '@/router/hooks/auth';
+import { initRouterStats } from '@/router/hooks/stats';
+import { ROUTER_ROOT_NAME_ROOT } from '@/constants/router';
 
 export function getDefaultRoutes(): Array<RouteRecordRaw> {
   return [
@@ -52,36 +52,45 @@ export function getDefaultRoutes(): Array<RouteRecordRaw> {
 
 export function getDefaultSidebarMenuItems(): MenuItem[] {
   return [
-    {path: '/home', title: 'router.menuItems.home', icon: ['fa', 'home']},
-    {path: '/nodes', title: 'router.menuItems.nodes', icon: ['fa', 'server']},
-    {path: '/projects', title: 'router.menuItems.projects', icon: ['fa', 'project-diagram']},
-    {path: '/spiders', title: 'router.menuItems.spiders', icon: ['fa', 'spider']},
-    {path: '/schedules', title: 'router.menuItems.schedules', icon: ['fa', 'clock']},
-    {path: '/tasks', title: 'router.menuItems.tasks', icon: ['fa', 'tasks']},
-    {path: '/data-sources', title: 'router.menuItems.ds', icon: ['fa', 'database']},
-    {path: '/users', title: 'router.menuItems.users', icon: ['fa', 'users']},
+    { path: '/home', title: 'router.menuItems.home', icon: ['fa', 'home'] },
+    { path: '/nodes', title: 'router.menuItems.nodes', icon: ['fa', 'server'] },
+    { path: '/projects', title: 'router.menuItems.projects', icon: ['fa', 'project-diagram'] },
+    { path: '/spiders', title: 'router.menuItems.spiders', icon: ['fa', 'spider'] },
+    { path: '/schedules', title: 'router.menuItems.schedules', icon: ['fa', 'clock'] },
+    { path: '/tasks', title: 'router.menuItems.tasks', icon: ['fa', 'tasks'] },
+    { path: '/data-sources', title: 'router.menuItems.ds', icon: ['fa', 'database'] },
+    { path: '/users', title: 'router.menuItems.users', icon: ['fa', 'users'] },
     // {path: '/tags', title: 'router.menuItems.tags', icon: ['fa', 'tag']},
-    {path: '/tokens', title: 'router.menuItems.tokens', icon: ['fa', 'key']},
+    { path: '/tokens', title: 'router.menuItems.tokens', icon: ['fa', 'key'] },
     {
       path: '/deps',
       title: 'router.menuItems.env.deps.title',
       icon: ['fa', 'puzzle-piece'],
       children: [
-        {path: '/deps/settings', title: 'router.menuItems.env.deps.settings', icon: ['fa', 'cog']},
-        {path: '/deps/python', title: 'router.menuItems.env.deps.python', icon: ['fab', 'python']},
-        {path: '/deps/node', title: 'router.menuItems.env.deps.node', icon: ['fab', 'node']},
+        { path: '/deps/settings', title: 'router.menuItems.env.deps.settings', icon: ['fa', 'cog'] },
+        { path: '/deps/python', title: 'router.menuItems.env.deps.python', icon: ['fab', 'python'] },
+        { path: '/deps/node', title: 'router.menuItems.env.deps.node', icon: ['fab', 'node'] },
       ]
     },
-    {path: '/notifications', title: 'router.menuItems.notification', icon: ['fa', 'envelope']},
-    {path: '/environments', title: 'router.menuItems.environment', icon: ['fa', 'percent']},
-    {path: '/system', title: 'router.menuItems.system', icon: ['fa', 'cogs']},
+    { path: '/notifications', title: 'router.menuItems.notification', icon: ['fa', 'envelope'] },
+    { path: '/environments', title: 'router.menuItems.environment', icon: ['fa', 'percent'] },
+    { path: '/system', title: 'router.menuItems.system', icon: ['fa', 'cogs'] },
+    {
+      path: '/gather',
+      title: '数据采集',
+      icon: ['fa', 'cogs'],
+      children: [
+        { path: '/projects', title: 'router.menuItems.projects', icon: ['fa', 'project-diagram'] },
+        { path: '/spiders', title: 'router.menuItems.spiders', icon: ['fa', 'spider'] },
+      ]
+    },
   ];
 }
 
 export function getDefaultHiddenMenuItems(): MenuItem[] {
   const items = [
-    {path: '/misc/disclaimer', title: 'router.menuItems.misc.disclaimer', icon: ['fa', 'file-signature']},
-    {path: '/misc/my-settings', title: 'router.menuItems.misc.mySettings', icon: ['fa', 'user-cog']},
+    { path: '/misc/disclaimer', title: 'router.menuItems.misc.disclaimer', icon: ['fa', 'file-signature'] },
+    { path: '/misc/my-settings', title: 'router.menuItems.misc.mySettings', icon: ['fa', 'user-cog'] },
   ] as MenuItem[];
   return items.map(d => {
     d.hidden = true;

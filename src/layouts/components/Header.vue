@@ -4,7 +4,7 @@
       <div class="left">
       </div>
       <div class="right">
-        <iframe
+        <!-- <iframe
           v-if="systemInfo.edition === 'global.edition.community'"
           class="item"
           src="https://ghbtns.com/github-btn.html?user=crawlab-team&repo=crawlab&type=star&count=true"
@@ -66,7 +66,7 @@
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>
-        </el-dropdown>
+        </el-dropdown> -->
         <el-dropdown
           v-locate="'me'"
           class="me"
@@ -80,12 +80,12 @@
           </span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item
+              <!-- <el-dropdown-item
                 v-track="{code: 'click_header_disclaimer'}"
                 @click="onClickDisclaimer"
               >
                 {{ t('layouts.components.header.disclaimer') }}
-              </el-dropdown-item>
+              </el-dropdown-item> -->
               <el-dropdown-item
                 v-track="{code: 'click_header_my_settings'}"
                 @click="onClickMySettings"
