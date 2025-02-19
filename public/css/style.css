@@ -18,11 +18,11 @@
 #loading-placeholder .title {
   font-family: "Verdana", serif;
   font-weight: 600;
-  font-size: 48px;
+  font-size: 32px;
   color: #409EFF;
   text-align: center;
   cursor: default;
-  letter-spacing: -5px;
+  letter-spacing: 2px;
   margin: 0;
 }
 

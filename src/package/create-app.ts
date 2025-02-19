@@ -106,7 +106,7 @@ const _createApp = async (options?: CreateAppOptions): Promise<App> => {
   if (options.loadRouter) app.use(router);
   if (options.loadI18n) {
     app.use(getI18n());
-    setGlobalLang(window.localStorage.getItem('lang') as Lang || 'en');
+    setGlobalLang(window.localStorage.getItem('lang') as Lang || 'zh');
   }
   if (options.loadFontAwesome) app.component('font-awesome-icon', FontAwesomeIcon);
   if (options.loadTrack) app.directive('track', track);

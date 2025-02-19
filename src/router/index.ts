@@ -53,28 +53,6 @@ export function getDefaultRoutes(): Array<RouteRecordRaw> {
 export function getDefaultSidebarMenuItems(): MenuItem[] {
   return [
     { path: '/home', title: 'router.menuItems.home', icon: ['fa', 'home'] },
-    { path: '/nodes', title: 'router.menuItems.nodes', icon: ['fa', 'server'] },
-    { path: '/projects', title: 'router.menuItems.projects', icon: ['fa', 'project-diagram'] },
-    { path: '/spiders', title: 'router.menuItems.spiders', icon: ['fa', 'spider'] },
-    { path: '/schedules', title: 'router.menuItems.schedules', icon: ['fa', 'clock'] },
-    { path: '/tasks', title: 'router.menuItems.tasks', icon: ['fa', 'tasks'] },
-    { path: '/data-sources', title: 'router.menuItems.ds', icon: ['fa', 'database'] },
-    { path: '/users', title: 'router.menuItems.users', icon: ['fa', 'users'] },
-    // {path: '/tags', title: 'router.menuItems.tags', icon: ['fa', 'tag']},
-    { path: '/tokens', title: 'router.menuItems.tokens', icon: ['fa', 'key'] },
-    {
-      path: '/deps',
-      title: 'router.menuItems.env.deps.title',
-      icon: ['fa', 'puzzle-piece'],
-      children: [
-        { path: '/deps/settings', title: 'router.menuItems.env.deps.settings', icon: ['fa', 'cog'] },
-        { path: '/deps/python', title: 'router.menuItems.env.deps.python', icon: ['fab', 'python'] },
-        { path: '/deps/node', title: 'router.menuItems.env.deps.node', icon: ['fab', 'node'] },
-      ]
-    },
-    { path: '/notifications', title: 'router.menuItems.notification', icon: ['fa', 'envelope'] },
-    { path: '/environments', title: 'router.menuItems.environment', icon: ['fa', 'percent'] },
-    { path: '/system', title: 'router.menuItems.system', icon: ['fa', 'cogs'] },
     {
       path: '/gather',
       title: '数据采集',
@@ -82,6 +60,39 @@ export function getDefaultSidebarMenuItems(): MenuItem[] {
       children: [
         { path: '/projects', title: 'router.menuItems.projects', icon: ['fa', 'project-diagram'] },
         { path: '/spiders', title: 'router.menuItems.spiders', icon: ['fa', 'spider'] },
+      ]
+    },
+    {
+      path: '/clean',
+      title: '数据清洗',
+      icon: ['fa', 'cogs'],
+      children: []
+    },
+    {
+      path: '/manage',
+      title: '数据管理',
+      icon: ['fa', 'cogs'],
+      children: [
+        { path: '/nodes', title: 'router.menuItems.nodes', icon: ['fa', 'server'] },
+        { path: '/schedules', title: 'router.menuItems.schedules', icon: ['fa', 'clock'] },
+        { path: '/tasks', title: 'router.menuItems.tasks', icon: ['fa', 'tasks'] },
+        { path: '/data-sources', title: 'router.menuItems.ds', icon: ['fa', 'database'] },
+        { path: '/users', title: 'router.menuItems.users', icon: ['fa', 'users'] },
+        // {path: '/tags', title: 'router.menuItems.tags', icon: ['fa', 'tag']},
+        { path: '/tokens', title: 'router.menuItems.tokens', icon: ['fa', 'key'] },
+        {
+          path: '/deps',
+          title: 'router.menuItems.env.deps.title',
+          icon: ['fa', 'puzzle-piece'],
+          children: [
+            { path: '/deps/settings', title: 'router.menuItems.env.deps.settings', icon: ['fa', 'cog'] },
+            { path: '/deps/python', title: 'router.menuItems.env.deps.python', icon: ['fab', 'python'] },
+            { path: '/deps/node', title: 'router.menuItems.env.deps.node', icon: ['fab', 'node'] },
+          ]
+        },
+        { path: '/notifications', title: 'router.menuItems.notification', icon: ['fa', 'envelope'] },
+        { path: '/environments', title: 'router.menuItems.environment', icon: ['fa', 'percent'] },
+        { path: '/system', title: 'router.menuItems.system', icon: ['fa', 'cogs'] },
       ]
     },
   ];

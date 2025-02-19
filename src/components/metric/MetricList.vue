@@ -236,7 +236,7 @@ export default defineComponent({
 
     const lang = computed<Lang>(() => {
       // console.debug(commonState.lang);
-      return commonState.lang || 'en';
+      return commonState.lang || 'zh';
     });
 
     watch(() => checkedNormalizedMetrics.value.map(m => m.value), updateAllChartData);

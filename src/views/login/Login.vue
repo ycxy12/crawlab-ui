@@ -11,15 +11,7 @@
     >
       <h3 class="title">
         <img :src="logo" alt="logo" class="logo-img"/>
-<!--        <span class="logo-title">Crawlab</span>-->
-        <span class="logo-sub-title">
-          <div class="logo-sub-title-block">
-            {{ t(systemInfo.edition || '') }}
-          </div>
-          <div class="logo-sub-title-block">
-            {{ systemInfo.version }}
-          </div>
-        </span>
+        <span class="logo-sub-title">情报采集分析</span>
       </h3>
       <el-form-item prop="username" style="margin-bottom: 28px;">
         <el-input
@@ -91,11 +83,11 @@
       <div class="tips">
         <span>{{ t('views.login.initial.title') }}: admin/admin</span>
         <!--TODO: implement github stars-->
-        <a v-if="false" href="https://github.com/crawlab-team/crawlab" style="float:right" target="_blank">
+        <!-- <a v-if="false" href="https://github.com/crawlab-team/crawlab" style="float:right" target="_blank">
           <img alt="github-stars" src="https://img.shields.io/github/stars/crawlab-team/crawlab?logo=github">
-        </a>
+        </a> -->
       </div>
-      <div class="lang">
+      <!-- <div class="lang">
         <span :class="lang==='zh'?'active':''" @click="setLang('zh')">中文</span>
         |
         <span :class="lang==='en'?'active':''" @click="setLang('en')">English</span>
@@ -109,7 +101,7 @@
             t('views.login.mobile.warning')
           }}
         </el-alert>
-      </div>
+      </div> -->
     </el-form>
   </div>
 </template>
@@ -118,7 +110,7 @@
 import {computed, defineComponent, onMounted, onUnmounted, ref} from 'vue';
 import {isValidUsername} from '@/utils/validate';
 import {useRoute, useRouter} from 'vue-router';
-import logo from '@/assets/svg/logo-main.svg';
+import logo from '@/assets/svg/logo.svg';
 import {ElMessage} from 'element-plus';
 import useRequest from '@/services/request';
 import {useStore} from 'vuex';
@@ -200,7 +192,7 @@ export default defineComponent({
 
     const allowRegister = ref<boolean>(false);
 
-    const internalLang = ref<string>(localStorage.getItem('lang') || 'en');
+    const internalLang = ref<string>(localStorage.getItem('lang') || 'zh');
 
     const lang = computed<string | null>(() => internalLang.value || localStorage.getItem('lang'));
 
@@ -362,7 +354,7 @@ export default defineComponent({
     height: 128px;
 
     .logo-img {
-      height: 80px;
+      height: 70px;
     }
 
     .logo-title {
@@ -375,7 +367,8 @@ export default defineComponent({
 
     .logo-sub-title {
       font-family: BlinkMacSystemFont, -apple-system, segoe ui, roboto, oxygen, ubuntu, cantarell, fira sans, droid sans, helvetica neue, helvetica, arial, sans-serif;
-      font-size: 20px;
+      font-size: 32px;
+      letter-spacing: 2px;
       height: 48px;
       line-height: 48px;
       margin-left: 20px;

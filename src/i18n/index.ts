@@ -8,12 +8,12 @@ export const getI18n = (): LI18n => {
   if (!i18n) {
     i18n = createI18n({
       legacy: false,
-      locale: localStorage.getItem('lang') || 'en',
+      locale: localStorage.getItem('lang') || 'zh',
       messages: {
         en: en as any,
         zh: zh as any,
       },
-      fallbackLocale: 'en',
+      fallbackLocale: 'zh',
       missingWarn: process.env.NODE_ENV === 'development',
       fallbackWarn: process.env.NODE_ENV === 'development',
     });
