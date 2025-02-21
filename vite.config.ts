@@ -84,7 +84,7 @@ export default defineConfig({
     cors: true,
     proxy: {
       '/qb-crawlab': {
-        target: 'http://psawy2.natappfree.cc',
+        target: 'http://159.138.85.235:8990',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/qb-crawlab/, ''),
       },
