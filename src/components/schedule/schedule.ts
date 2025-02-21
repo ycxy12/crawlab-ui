@@ -93,7 +93,7 @@ const schedule = (store: Store<RootStoreState>) => {
     {
       prop: 'enabled',
       label: t('components.schedule.form.enabled'),
-      width: '80',
+      width: '100',
       fieldType: FORM_FIELD_TYPE_SWITCH,
       required: true,
     },

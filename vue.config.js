@@ -70,6 +70,15 @@ const config = {
     module: {
       rules,
     },
+    // devServer: {
+    //   proxy: {
+    //     '/api': {
+    //       target: 'http://psawy2.natappfree.cc',  // 目标地址
+    //       changeOrigin: true,  // 如果是跨域请求，这个值需要为 true
+    //       pathRewrite: { '^/api': '' }, // 选：重写路径
+    //     },
+    //   },
+    // },
   },
 }
 

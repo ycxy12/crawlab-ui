@@ -1,8 +1,8 @@
-import {resolve} from 'path';
-import {defineConfig} from 'vite';
+import { resolve } from 'path';
+import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import dynamicImport from 'vite-plugin-dynamic-import';
-import {visualizer} from 'rollup-plugin-visualizer';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 export default defineConfig({
   build: {
@@ -59,7 +59,7 @@ export default defineConfig({
   resolve: {
     dedupe: ['vue'],
     alias: [
-      {find: '@', replacement: resolve(__dirname, 'src')},
+      { find: '@', replacement: resolve(__dirname, 'src') },
     ],
     extensions: [
       '.js',
@@ -77,9 +77,17 @@ export default defineConfig({
   plugins: [
     vue(),
     dynamicImport(),
-    visualizer({open: true}),
+    visualizer({ open: true }),
   ],
   server: {
+    host: '0.0.0.0',
     cors: true,
+    proxy: {
+      '/qb-crawlab': {
+        target: 'http://psawy2.natappfree.cc',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/qb-crawlab/, ''),
+      },
+    },
   },
 });

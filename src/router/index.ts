@@ -16,6 +16,7 @@ import ds from '@/router/ds';
 import environment from '@/router/environment';
 import system from '@/router/system';
 import misc from '@/router/misc';
+import clean from '@/router/clean';
 import { initRouterAuth } from '@/router/hooks/auth';
 import { initRouterStats } from '@/router/hooks/stats';
 import { ROUTER_ROOT_NAME_ROOT } from '@/constants/router';
@@ -45,6 +46,7 @@ export function getDefaultRoutes(): Array<RouteRecordRaw> {
         ...ds,
         ...environment,
         ...system,
+        ...clean
       ],
     },
   ];
@@ -66,7 +68,10 @@ export function getDefaultSidebarMenuItems(): MenuItem[] {
       path: '/clean',
       title: '数据清洗',
       icon: ['fa', 'cogs'],
-      children: []
+      children: [
+        { path: '/collection', title: '采集结果', icon: ['fa', 'spider'] },
+        { path: '/wash', title: '清洗结果', icon: ['fa', 'project-diagram'] },
+      ]
     },
     {
       path: '/manage',
