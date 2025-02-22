@@ -4,7 +4,7 @@
           <cl-nav-actions  class="nav-actions">
             <cl-nav-action-group>
               <cl-nav-action-item>
-                <cl-nav-action-button v-auth="ACTION_ADD" button-type="label" label="添加采集文章" tooltip="添加采集文章" type="success" :icon="icon" @click="onAdd" />
+                <cl-nav-action-button v-auth="ACTION_ADD" button-type="label" label="添加清洗文章" tooltip="添加清洗文章" type="success" :icon="icon" @click="onAdd" />
               </cl-nav-action-item>
               <cl-nav-action-item>
                 <cl-filter-input placeholder="请输入标题" @change="onChange" />
