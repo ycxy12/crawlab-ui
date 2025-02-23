@@ -37,7 +37,7 @@ export const setGlobalLang = (lang: Lang) => {
   // update title
   const title = translate('global.title');
   const subTitle = translate('global.subTitle');
-  updateTitle(`${title} | ${subTitle}`);
+  updateTitle(`${subTitle}`);
 };
 
 export const getLanguage = (): string => {

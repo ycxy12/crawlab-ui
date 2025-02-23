@@ -153,7 +153,7 @@ const tableColumns = computed<TableColumns<Environment>>(() => [
         {
           className: 'view-btn',
           type: 'primary',
-          icon: ['fa', 'tools'],
+          icon: ['fa', 'cloud'],
           tooltip: '词频',
           onClick: (row) => {
             wordsChartRef.value?.openDialog(row.id)

@@ -110,6 +110,9 @@ const tableColumns = computed<TableColumns<Environment>>(() => [
       key: 'intro',
       label: '简介',
       width: 'auto',
+      value: (row: Environment) => {
+        return row.intro?row.intro:''
+      }
     },
     {
       key: TABLE_COLUMN_NAME_ACTIONS,

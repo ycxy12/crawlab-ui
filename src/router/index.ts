@@ -58,7 +58,7 @@ export function getDefaultSidebarMenuItems(): MenuItem[] {
     {
       path: '/gather',
       title: '数据采集',
-      icon: ['fa', 'cogs'],
+      icon: ['fa', 'notes-medical'],
       children: [
         { path: '/projects', title: 'router.menuItems.projects', icon: ['fa', 'project-diagram'] },
         { path: '/spiders', title: 'router.menuItems.spiders', icon: ['fa', 'spider'] },
@@ -67,17 +67,17 @@ export function getDefaultSidebarMenuItems(): MenuItem[] {
     {
       path: '/clean',
       title: '数据清洗',
-      icon: ['fa', 'cogs'],
+      icon: ['fa', 'filter'],
       children: [
-        { path: '/collection', title: '采集结果', icon: ['fa', 'spider'] },
-        { path: '/wash', title: '清洗结果', icon: ['fa', 'project-diagram'] },
-        { path: '/analysis', title: '数据分析', icon: ['fa', 'database'] },
+        { path: '/collection', title: '采集结果', icon: ['fa', 'square-poll-vertical'] },
+        { path: '/wash', title: '清洗结果', icon: ['fa', 'circle-check'] },
+        { path: '/analysis', title: '数据分析', icon: ['fa', 'chart-line'] },
       ]
     },
     {
       path: '/manage',
       title: '数据管理',
-      icon: ['fa', 'cogs'],
+      icon: ['fa', 'list-check'],
       children: [
         { path: '/nodes', title: 'router.menuItems.nodes', icon: ['fa', 'server'] },
         { path: '/schedules', title: 'router.menuItems.schedules', icon: ['fa', 'clock'] },
