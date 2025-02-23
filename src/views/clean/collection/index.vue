@@ -27,7 +27,7 @@
       </cl-table>
       </div>
       <editClean ref="editCleanRef" @refresh="getList" />
-      <!-- <wordsChart ref="wordsChartRef" /> -->
+      <wordsChart ref="wordsChartRef" />
     </div>
 </template>
 
@@ -38,7 +38,7 @@ import useCollectionService from '@/services/collection/collectionService';
 import {ACTION_ADD} from '@/constants/action';
 import { ACTION_COPY, ACTION_VIEW, TABLE_COLUMN_NAME_ACTIONS } from "@/constants";
 import editClean from './editClean.vue';
-// import wordsChart from './wordsChart.vue';
+import wordsChart from './wordsChart.vue';
 
 const { listCollectionResult, deleteCollectionResult,  } = useCollectionService();
 
