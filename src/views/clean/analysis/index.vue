@@ -1,16 +1,16 @@
 <template>
     <div class="list-layout">
       <div class="content">
-          <cl-nav-actions  class="nav-actions">
+          <!-- <cl-nav-actions  class="nav-actions">
             <cl-nav-action-group>
               <cl-nav-action-item>
-                <cl-nav-action-button v-auth="ACTION_ADD" button-type="label" label="添加采集文章" tooltip="添加采集文章" type="success" :icon="icon" @click="onAdd" />
+                <cl-nav-action-button v-auth="ACTION_ADD" button-type="label" label="添加清洗文章" tooltip="添加清洗文章" type="success" :icon="icon" @click="onAdd" />
               </cl-nav-action-item>
               <cl-nav-action-item>
                 <cl-filter-input placeholder="请输入标题" @change="onChange" />
               </cl-nav-action-item>
             </cl-nav-action-group>
-          </cl-nav-actions>
+          </cl-nav-actions> -->
         <cl-table
           ref="tableRef"
           :columns="tableColumns"
@@ -26,24 +26,27 @@
         >
       </cl-table>
       </div>
-      <editClean ref="editCleanRef" @refresh="getList" />
-      <!-- <wordsChart ref="wordsChartRef" /> -->
+      <!-- <editClean ref="editCleanRef" @refresh="getList" /> -->
     </div>
 </template>
 
 <script setup lang='ts'>
 import { ElMessageBox } from 'element-plus';
 import { ref, onMounted, reactive, computed } from 'vue'
-import useCollectionService from '@/services/collection/collectionService';
-import {ACTION_ADD} from '@/constants/action';
-import { ACTION_COPY, ACTION_VIEW, TABLE_COLUMN_NAME_ACTIONS } from "@/constants";
-import editClean from './editClean.vue';
-// import wordsChart from './wordsChart.vue';
+import useAnalysisService from '@/services/analysis/analysisService';
+import {ACTION_ADD, ACTION_FILTER_SELECT} from '@/constants/action';
+import {
+  ACTION_COPY,
+  ACTION_FILTER,
+  ACTION_FILTER_SEARCH,
+  FILTER_OP_CONTAINS,
+  TABLE_COLUMN_NAME_ACTIONS
+} from "@/constants";
+// import editClean from './editClean.vue';
 
-const { listCollectionResult, deleteCollectionResult,  } = useCollectionService();
+const { listAnalysisResult, deleteAnalysisResult,  } = useAnalysisService();
 
 const editCleanRef = ref<any>(null)
-const wordsChartRef = ref<any>(null)
 
 //列表
 const icon = ['fa', 'plus']
@@ -55,8 +58,9 @@ const tablePagination = reactive({
     size: 10,
 })
 const getList = async () => {
-    const res = await listCollectionResult({page: tablePagination.page, size: tablePagination.size, title: title.value})
-    tableData.value = res.data.records
+    const res = await listAnalysisResult({page: tablePagination.page, size: tablePagination.size, title: title.value})
+    // tableData.value = res.data.records
+    tableData.value = [{}]
     tableTotal.value = res.data.total
 }
 
@@ -120,14 +124,14 @@ const tableColumns = computed<TableColumns<Environment>>(() => [
       width: '200',
       buttons: [
         {
-          type: 'warning',
+          type: 'primary',
           size: 'small',
-          icon: ['far', 'edit'],
-          tooltip: '编辑',
+          icon: ['far', 'eye'],
+          tooltip: '查看',
           onClick: async (row: Environment) => {
-            editCleanRef.value?.openDialog(row.id)
+            // editCleanRef.value?.openDialog(row.id)
           },
-          action: ACTION_COPY,
+          // action: ACTION_COPY,
         },
         {
           type: 'danger',
@@ -145,20 +149,10 @@ const tableColumns = computed<TableColumns<Environment>>(() => [
             );
 
             if (res) {
-              await deleteCollectionResult(row.id as string);
+              await deleteAnalysisResult(row.id as string);
             }
             await getList()
           },
-        },
-        {
-          className: 'view-btn',
-          type: 'primary',
-          icon: ['fa', 'tools'],
-          tooltip: '词频',
-          onClick: (row) => {
-            wordsChartRef.value?.openDialog(row.id)
-          },
-          action: ACTION_VIEW,
         },
       ],
       disableTransfer: true,

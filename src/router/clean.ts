@@ -12,4 +12,9 @@ export default [
     path: `collection`,
     component: () => import('@/views/clean/collection/index.vue'),
   },
+  {
+    name: 'analysis',
+    path: `analysis`,
+    component: () => import('@/views/clean/analysis/index.vue'),
+  },
 ] as Array<RouteRecordRaw>;

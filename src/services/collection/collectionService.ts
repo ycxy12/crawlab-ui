@@ -23,13 +23,23 @@ const useCollectionService = () => {
   const getCollectionResult = async (id: string) => {
     return await get(`/qb-crawlab/collectionResult/${id}`);
   };
+  //处理采集结果
+  const handleCollectionResult = async (params: any) => {
+    return await post('/qb-crawlab/collectionResult/handleResult', params);
+  };
+  //获取词频
+  const getWordFrequency = async (id: any) => {
+    return await get(`/qb-crawlab/collectionResult/getWordFrequency/${id}`);
+  };
 
   return {
     listCollectionResult,
     addCollectionResult,
     editCollectionResult,
     deleteCollectionResult,
-    getCollectionResult
+    getCollectionResult,
+    handleCollectionResult,
+    getWordFrequency
   };
 };
 

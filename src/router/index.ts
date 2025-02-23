@@ -71,6 +71,7 @@ export function getDefaultSidebarMenuItems(): MenuItem[] {
       children: [
         { path: '/collection', title: '采集结果', icon: ['fa', 'spider'] },
         { path: '/wash', title: '清洗结果', icon: ['fa', 'project-diagram'] },
+        { path: '/analysis', title: '数据分析', icon: ['fa', 'database'] },
       ]
     },
     {
