@@ -4,7 +4,7 @@
           <cl-nav-actions  class="nav-actions">
             <cl-nav-action-group>
               <cl-nav-action-item>
-                <cl-nav-action-button v-auth="ACTION_ADD" button-type="label" label="添加清洗文章" tooltip="添加清洗文章" type="success" :icon="icon" @click="onAdd" />
+                <!-- <cl-nav-action-button v-auth="ACTION_ADD" button-type="label" label="添加清洗文章" tooltip="添加清洗文章" type="success" :icon="icon" @click="onAdd" /> -->
               </cl-nav-action-item>
               <cl-nav-action-item>
                 <cl-filter-input placeholder="请输入标题" @change="onChange" />
@@ -21,12 +21,11 @@
           selectable
           @selection-change="onSelect"
           @delete="onDelete"
-          @edit="onEdit"
           @pagination-change="onPaginationChange"
         >
       </cl-table>
       </div>
-      <editClean ref="editCleanRef" @refresh="getList" />
+      <viewDialog ref="viewDialogRef" />
     </div>
 </template>
 
@@ -34,19 +33,15 @@
 import { ElMessageBox } from 'element-plus';
 import { ref, onMounted, reactive, computed } from 'vue'
 import useCleanService from '@/services/clean/cleanService';
-import {ACTION_ADD, ACTION_FILTER_SELECT} from '@/constants/action';
 import {
   ACTION_COPY,
-  ACTION_FILTER,
-  ACTION_FILTER_SEARCH,
-  FILTER_OP_CONTAINS,
   TABLE_COLUMN_NAME_ACTIONS
 } from "@/constants";
-import editClean from './editClean.vue';
+import viewDialog from './viewDialog.vue';
 
 const { listSubjectArticle, deleteSubjectArticle,  } = useCleanService();
 
-const editCleanRef = ref<any>(null)
+const viewDialogRef = ref<any>(null)
 
 //列表
 const icon = ['fa', 'plus']
@@ -122,13 +117,23 @@ const tableColumns = computed<TableColumns<Environment>>(() => [
       fixed: 'right',
       width: '200',
       buttons: [
+        // {
+        //   type: 'warning',
+        //   size: 'small',
+        //   icon: ['far', 'edit'],
+        //   tooltip: '编辑',
+        //   onClick: async (row: Environment) => {
+        //     editCleanRef.value?.openDialog(row.id)
+        //   },
+        //   action: ACTION_COPY,
+        // },
         {
-          type: 'warning',
+          type: 'primary',
           size: 'small',
-          icon: ['far', 'edit'],
-          tooltip: '编辑',
+          icon: ['far', 'eye'],
+          tooltip: '详情',
           onClick: async (row: Environment) => {
-            editCleanRef.value?.openDialog(row.id)
+            viewDialogRef.value?.openDialog(row.id)
           },
           action: ACTION_COPY,
         },
