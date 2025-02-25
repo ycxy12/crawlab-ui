@@ -1,13 +1,17 @@
 <template>
 	<el-dialog v-model="dialogVisible" title="数据分析详情" top="15vh" width="80vw" :before-close="handleClose">
 		<div class="analysis">
+      <div>
+				<span class="analysis_label">采集结果标题：</span>
+				<p>{{ form.collectionResulTitle }}</p>
+			</div>
 			<div>
 				<span class="analysis_label">简介：</span>
 				<p>{{ form.intro }}</p>
 			</div>
 			<div>
 				<span class="analysis_label">要素信息：</span>
-				<div class="info-container">
+				<div class="info-con">
 					<div class="info-row" v-for="item in getData(form.elementInfo)" :key="item.label">
 						<span class="info-label">{{ categoryLabels[item.label] }}:</span>
 						<div class="info-content">
@@ -87,39 +91,39 @@ const getData = (elementInfo: any) => {
 
 // 分类颜色映射
 const categoryColorMap: Record<string, string> = {
-	// 基础信息类
-	Country: "primary", // 蓝色（国家）
-	Job: "success", // 绿色（职位）
-	Location: "warning", // 橙色（地点）
-	People: "danger", // 红色（人物）
-	Time: "magenta", // 品红（时间，自定义）
+	 // 基础信息类
+   country: 'primary',   // 蓝色（国家）
+  job: 'success',       // 绿色（职位）
+  location: 'warning',  // 橙色（地点）
+  people: 'danger',     // 红色（人物）
+  time: 'magenta',      // 品红（时间，自定义）
 
-	// 军事信息类
-	Troops: "purple", // 紫色（部队）
-	ZB_Army: "#2c6e49", // 陆军装备-深绿（自定义）
-	ZB_Firearms: "#d4a017", // 轻武器-金色（自定义）
-	ZB_Plane: "#0e7490", // 飞机-深青（自定义）
-	ZB_Ship: "#1e3a8a", // 舰船-海军蓝（自定义）
-	ZB_other: "#4b5563", // 其他装备-灰（自定义）
+  // 军事信息类
+  troops: 'purple',     // 紫色（部队）
+  zb_Army: '#2c6e49',  // 陆军装备-深绿（自定义）
+  zb_Firearms: '#d4a017', // 轻武器-金色（自定义）
+  zb_Plane: '#0e7490', // 飞机-深青（自定义）
+  zb_Ship: '#1e3a8a',  // 舰船-海军蓝（自定义）
+  zb_other: '#4b5563', // 其他装备-灰（自定义）
 
-	// 空分类（低优先级）
-	O: "default", // 默认灰色（其他）
-	Org: "info", // 青色（组织）
+  // 空分类（低优先级）
+  o: 'default',         // 默认灰色（其他）
+  org: 'info'           // 青色（组织）
 }
 const categoryLabels: any = {
-	Country: "国家",
-	Job: "职位",
-	Location: "地点",
-	O: "其他",
-	Org: "组织",
-	People: "人物",
-	Time: "时间",
-	Troops: "部队",
-	ZB_Army: "陆军装备",
-	ZB_Firearms: "轻武器",
-	ZB_Plane: "飞机",
-	ZB_Ship: "舰船",
-	ZB_other: "其他装备",
+	country: "国家",
+	job: "职位",
+	location: "地点",
+	o: "其他",
+	org: "组织",
+	people: "人物",
+	time: "时间",
+	troops: "部队",
+	zb_Army: "陆军装备",
+	zb_Firearms: "轻武器",
+	zb_Plane: "飞机",
+	zb_Ship: "舰船",
+	zb_other: "其他装备",
 }
 
 defineExpose({ openDialog })
@@ -131,17 +135,19 @@ defineExpose({ openDialog })
 		font-weight: bold;
 		padding-right: 20px;
 		text-align: right;
-		width: 100px;
+		width: 120px;
+    flex-shrink: 0;
 	}
 	p {
 		margin: 0;
+    line-height: 24px;
 	}
 	& > div {
 		display: flex;
 		margin-bottom: 20px;
 	}
 }
-.info-container {
+.info-con {
 	padding: 12px;
 	border: 1px solid #ebeef5;
 	border-radius: 4px;

@@ -107,11 +107,17 @@ const tableColumns = computed<TableColumns<Environment>>(() => [
       key: 'releaseTime',
       label: '发布时间',
       width: '160',
+      value: (row: any) => {
+        return row.releaseTime?row.releaseTime:''
+      }
     },
     {
       key: 'intro',
       label: '简介',
       width: 'auto',
+      value: (row: any) => {
+        return row.intro?row.intro:''
+      }
     },
     {
       key: TABLE_COLUMN_NAME_ACTIONS,
