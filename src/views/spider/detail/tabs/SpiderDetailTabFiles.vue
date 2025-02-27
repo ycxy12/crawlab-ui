@@ -110,6 +110,8 @@ export default defineComponent({
       // fileEditor.value?.updateEditorContent();
       fileEditor.value?.updateTabs(item);
       fileEditor.value?.updateContentCache(item, content.value);
+      fileEditor.value?.updateEditorContent();
+
     };
 
     // const onNavItemClick = (item: FileNavItem) => {

@@ -587,6 +587,7 @@ export default defineComponent({
       onClickShowMoreContextMenuItem,
       updateTabs,
       updateContentCache,
+      updateEditorContent,
       onDropFiles,
       onFileSearch,
       onCreateWithAi,

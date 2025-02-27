@@ -130,6 +130,10 @@ const tableColumns = computed<TableColumns<Environment>>(() => [
 		key: "intro",
 		label: "简介",
 		width: "500",
+    value: (row: any) => h("div", {
+      class: "intro",
+      innerHTML: row.intro // 替代 v-html
+    })
 	},
 	{
 		key: "elementInfo",
