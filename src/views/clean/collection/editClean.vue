@@ -73,7 +73,7 @@ import { Plus } from "@element-plus/icons"
 import BasicEditor from "../BasicEditor/index.vue"
 import useCollectionService from '@/services/collection/collectionService';
 
-const { addCollectionResult, editCollectionResult, getCollectionResult } = useCollectionService();
+const { addCollectionResult, editCollectionResult, getCollectionResult, uploadCommon } = useCollectionService();
 
 const dialogVisible = ref(false)
 
@@ -150,17 +150,17 @@ const handleClose = () => {
 }
 
 //上传文件获取文件地址
-const uploadFile = () => {
+const uploadFile = async () => {
 	//判断fileList是否有值
+
 	if (fileList.value.length > 0) {
 		const file = fileList.value[0]
 		//判断file是否是一个file,还是一个文件地址
 		if (Object.prototype.toString.call(file) === "[object Object]") {
 			const formData = new FormData()
 			formData.append("file", file.raw)
-			return ""
-			// const { url } = await commonUpload(formData)
-			// return url
+			const { url } = await uploadCommon(formData)
+			return url
 		} else {
 			return file
 		}
@@ -176,10 +176,10 @@ const beforeUpload = (file:any) => {
 	return isImage
 }
 // 处理上传文件变更事件
-const handleChange = (file: any, fileList: any) => {
+const handleChange = (file: any, files: any) => {
 	ruleForm.cover = URL.createObjectURL(file.raw)
-	fileList.value = fileList
-	if (fileList.length !== 0) {
+	fileList.value = files
+	if (files.length !== 0) {
 		ruleFormRef.value.validateField("cover")
 	}
 }

@@ -141,6 +141,7 @@ defineExpose({ openDialog })
 	p {
 		margin: 0;
     line-height: 24px;
+    text-indent: inherit;
 	}
 	& > div {
 		display: flex;

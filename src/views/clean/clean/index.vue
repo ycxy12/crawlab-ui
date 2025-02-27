@@ -18,6 +18,7 @@
           :total="tableTotal"
           :page="tablePagination.page"
           :page-size="tablePagination.size"
+          :visibleButtons="visibleButtons"
           selectable
           @selection-change="onSelect"
           @delete="onDelete"
@@ -33,15 +34,14 @@
 import { ElMessageBox } from 'element-plus';
 import { ref, onMounted, reactive, computed } from 'vue'
 import useCleanService from '@/services/clean/cleanService';
-import {
-  ACTION_COPY,
-  TABLE_COLUMN_NAME_ACTIONS
-} from "@/constants";
+import { ACTION_COPY, TABLE_COLUMN_NAME_ACTIONS } from "@/constants";
+import {TABLE_ACTION_CUSTOMIZE_COLUMNS, TABLE_ACTION_EXPORT,} from '@/constants/table';
 import viewDialog from './viewDialog.vue';
 
 const { listSubjectArticle, deleteSubjectArticle,  } = useCleanService();
 
 const viewDialogRef = ref<any>(null)
+const visibleButtons = [TABLE_ACTION_CUSTOMIZE_COLUMNS, TABLE_ACTION_EXPORT]
 
 //列表
 const icon = ['fa', 'plus']

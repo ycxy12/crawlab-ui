@@ -18,6 +18,7 @@
           :total="tableTotal"
           :page="tablePagination.page"
           :page-size="tablePagination.size"
+          :visibleButtons="visibleButtons"
           selectable
           @selection-change="onSelect"
           @delete="onDelete"
@@ -28,6 +29,7 @@
       </div>
       <editClean ref="editCleanRef" @refresh="getList" />
       <wordsChart ref="wordsChartRef" />
+      <viewDialog ref="viewDialogRef" />
     </div>
 </template>
 
@@ -39,11 +41,15 @@ import {ACTION_ADD} from '@/constants/action';
 import { ACTION_COPY, ACTION_VIEW, TABLE_COLUMN_NAME_ACTIONS } from "@/constants";
 import editClean from './editClean.vue';
 import wordsChart from './wordsChart.vue';
+import viewDialog from './viewDialog.vue';
+import {TABLE_ACTION_CUSTOMIZE_COLUMNS, TABLE_ACTION_EXPORT,} from '@/constants/table';
 
 const { listCollectionResult, deleteCollectionResult,  } = useCollectionService();
 
 const editCleanRef = ref<any>(null)
 const wordsChartRef = ref<any>(null)
+const viewDialogRef = ref<any>(null)
+const visibleButtons = [TABLE_ACTION_CUSTOMIZE_COLUMNS, TABLE_ACTION_EXPORT]
 
 //列表
 const icon = ['fa', 'plus']
@@ -125,6 +131,15 @@ const tableColumns = computed<TableColumns<Environment>>(() => [
       fixed: 'right',
       width: '200',
       buttons: [
+      {
+				type: "primary",
+				size: "small",
+				icon: ["far", "eye"],
+				tooltip: "查看",
+				onClick: async (row: any) => {
+					viewDialogRef.value?.openDialog(row.id)
+				},
+			},
         {
           type: 'warning',
           size: 'small',

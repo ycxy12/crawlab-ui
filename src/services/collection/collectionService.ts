@@ -31,6 +31,10 @@ const useCollectionService = () => {
   const getWordFrequency = async (id: any) => {
     return await get(`/qb-crawlab/collectionResult/getWordFrequency/${id}`);
   };
+  //处理采集结果
+  const uploadCommon = async (params: any) => {
+    return await post('/qb-crawlab/common/upload', params);
+  };
 
   return {
     listCollectionResult,
@@ -39,7 +43,8 @@ const useCollectionService = () => {
     deleteCollectionResult,
     getCollectionResult,
     handleCollectionResult,
-    getWordFrequency
+    getWordFrequency,
+    uploadCommon
   };
 };
 

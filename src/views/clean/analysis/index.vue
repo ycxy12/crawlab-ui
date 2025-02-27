@@ -18,6 +18,7 @@
 				:total="tableTotal"
 				:page="tablePagination.page"
 				:page-size="tablePagination.size"
+        :visibleButtons="visibleButtons"
 				selectable
 				@selection-change="onSelect"
 				@delete="onDelete"
@@ -37,10 +38,12 @@ import { ref, onMounted, reactive, computed, h } from "vue"
 import useAnalysisService from "@/services/analysis/analysisService"
 import { TABLE_COLUMN_NAME_ACTIONS } from "@/constants"
 import viewDialog from './viewDialog.vue';
+import {TABLE_ACTION_CUSTOMIZE_COLUMNS, TABLE_ACTION_EXPORT,} from '@/constants/table';
 
 const { listAnalysisResult, deleteAnalysisResult } = useAnalysisService()
 
 const viewDialogRef = ref<any>(null)
+const visibleButtons = [TABLE_ACTION_CUSTOMIZE_COLUMNS, TABLE_ACTION_EXPORT]
 
 //列表
 const tableData = ref<any>([])
@@ -53,24 +56,6 @@ const tablePagination = reactive({
 const getList = async () => {
 	const res = await listAnalysisResult({ page: tablePagination.page, size: tablePagination.size, title: title.value })
 	tableData.value = res.data.records
-	// tableData.value = [{
-  //   intro: "123333",
-	// 		elementInfo: {
-	// 			Country: ["菲律宾", "中国"],
-	// 			Job: ["新闻发言人", "大校"],
-	// 			Location: ["南部战区", "南沙岛礁", "黄岩岛", "南海"],
-	// 			O: [],
-	// 			Org: [],
-	// 			People: ["田军里"],
-	// 			Time: ["2月20日", "2月18日", "218秒"],
-	// 			Troops: ["空军", "中国人民解放军"],
-	// 			ZB_Army: [],
-	// 			ZB_Firearms: [],
-	// 			ZB_Plane: ["C-208型机", "N-22型机"],
-	// 			ZB_Ship: [],
-	// 			ZB_other: [],
-	// 		},
-  // }]
 	tableTotal.value = res.data.total
 }
 

@@ -5,7 +5,6 @@
 			style="width: 100%; height: 500px"
 			v-loading="loading"
 			element-loading-text="Loading..."
-			:element-loading-spinner="svg"
 			element-loading-svg-view-box="-10, -10, 50, 50"
 			element-loading-background="rgba(122, 122, 122, 0.8)"
 		></div>
@@ -39,10 +38,14 @@ const openDialog = (id: any) => {
 		loading.value = true
 		getWordFrequency(id).then((res: any) => {
 			const data = res.data
-			wordData.value = Object.keys(data).map((key) => ({
-				name: key,
-				value: data[key],
-			}))
+      if(data) {
+        wordData.value = Object.keys(data).map((key) => ({
+          name: key,
+          value: data[key],
+        }))
+      }else{
+        wordData.value = []
+      }
 			chart = echarts.init(chartContainer.value)
 			initChart()
 			loading.value = false
@@ -61,6 +64,16 @@ const handleClose = () => {
 const initChart = () => {
 	const options = {
 		tooltip: {},
+    title: {
+    text: '暂无数据',
+    left: 'center',
+    top: 'center',
+    textStyle: {
+      fontSize: 20,
+      color: '#999'
+    },
+    show: !wordData.value ||  wordData.value.length === 0 // 根据数据是否为空显示
+  },
 		series: [
 			{
 				type: "wordCloud",
