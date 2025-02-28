@@ -44,24 +44,7 @@ const { getAnalysisResult } = useAnalysisService()
 
 const dialogVisible = ref(false)
 const loading = ref(false)
-const form = ref<any>({
-	// intro: "123333",
-	// 		elementInfo: {
-	// 			Country: ["菲律宾", "中国"],
-	// 			Job: ["新闻发言人", "大校"],
-	// 			Location: ["南部战区", "南沙岛礁", "黄岩岛", "南海"],
-	// 			O: [],
-	// 			Org: [],
-	// 			People: ["田军里"],
-	// 			Time: ["2月20日", "2月18日", "218秒"],
-	// 			Troops: ["空军", "中国人民解放军"],
-	// 			ZB_Army: [],
-	// 			ZB_Firearms: [],
-	// 			ZB_Plane: ["C-208型机", "N-22型机"],
-	// 			ZB_Ship: [],
-	// 			ZB_other: [],
-	// 		},
-})
+const form = ref<any>({})
 
 //打开弹框
 const openDialog = (id: any) => {
@@ -79,6 +62,7 @@ const handleClose = () => {
 }
 
 const getData = (elementInfo: any) => {
+  if (!elementInfo) return []
 	return Object.entries(elementInfo)
 		.filter(([key, value]: any) => value?.length > 0)
 		.map(([key, items]: any) => {

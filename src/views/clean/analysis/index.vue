@@ -143,8 +143,7 @@ const tableColumns = computed<TableColumns<Environment>>(() => [
 			h(
 				"div",
 				{ class: "info-container" },
-				Object.entries(row.elementInfo)
-					.filter(([key, value]:any) => value.length > 0)
+        (row.elementInfo?Object.entries(row.elementInfo):[]).filter(([key, value]:any) => value.length > 0)
 					.map(([key, items]: any) => {
 						const label = categoryLabels[key] || key
 						const color = categoryColorMap[key] || "info"
