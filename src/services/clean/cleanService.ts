@@ -23,13 +23,18 @@ const useCleanService = () => {
   const getSubjectArticle = async (id: string) => {
     return await get(`/qb-crawlab/subjectArticle/${id}`);
   };
+  //添加采集文章
+  const exportSubjectArticle = async (params: any) => {
+    return await post('/qb-crawlab/subjectArticle/export', params, {}, { responseType: 'blob' });
+  };
 
   return {
     listSubjectArticle,
     addSubjectArticle,
     editSubjectArticle,
     deleteSubjectArticle,
-    getSubjectArticle
+    getSubjectArticle,
+    exportSubjectArticle
   };
 };
 

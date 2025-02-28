@@ -64,11 +64,17 @@ const useRequest = () => {
     const headers = getHeaders();
 
     // axios response
-    const res = await axios.request({
+    const res:any = await axios.request({
       ...opts,
       baseURL,
       headers,
     });
+
+
+    //下载接口直接返回
+    if (opts.responseType === "blob") {
+      return res
+    }
 
     // response data
     return res?.data;
