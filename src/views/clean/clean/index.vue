@@ -153,12 +153,12 @@ const tableColumns = computed<TableColumns<Environment>>(() => [
 		width: "160",
 	},
 	{
-		key: "releaseTime",
-		label: "发布时间",
-		width: "160",
-		value: (row: any) => {
-			return row.releaseTime ? row.releaseTime : ""
-		},
+		key: 'publishTime',
+    label: '发布时间',
+    width: '160',
+    value: (row: any) => {
+      return row.publishTime?row.publishTime:''
+    }
 	},
 	{
 		key: "intro",
