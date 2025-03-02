@@ -33,7 +33,7 @@
 				:page-size="tablePagination.size"
 				:visibleButtons="visibleButtons"
 				selectable
-        :loading="loading"
+				:loading="loading"
 				@selection-change="onSelect"
 				@delete="onDelete"
 				@pagination-change="onPaginationChange"
@@ -45,13 +45,13 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessageBox } from "element-plus"
-import { ref, onMounted, reactive, computed } from "vue"
+import { ElMessageBox, ElTag } from "element-plus"
+import { ref, onMounted, reactive, computed, h } from "vue"
 import useCleanService from "@/services/clean/cleanService"
 import { ACTION_COPY, TABLE_COLUMN_NAME_ACTIONS } from "@/constants"
 import { TABLE_ACTION_CUSTOMIZE_COLUMNS, TABLE_ACTION_EXPORT } from "@/constants/table"
 import viewDialog from "./viewDialog.vue"
-import {downloadBlob} from "@/utils/request"
+import { downloadBlob } from "@/utils/request"
 
 const { listSubjectArticle, deleteSubjectArticle, exportSubjectArticle } = useCleanService()
 
@@ -101,24 +101,24 @@ const onExport = async () => {
 			title: title.value,
 			startTime: times.value[0],
 			endTime: times.value[1],
-      ids: ids.value?.length > 0 ? ids.value : undefined,
+			ids: ids.value?.length > 0 ? ids.value : undefined,
 		}
 	} else {
 		query = {
 			title: title.value,
-      ids: ids.value?.length > 0 ? ids.value : undefined,
+			ids: ids.value?.length > 0 ? ids.value : undefined,
 		}
 	}
-  loading.value = true
+	loading.value = true
 	const res = await exportSubjectArticle(query)
-  // console.log(res);
-  downloadBlob(res)
-  loading.value = false
+	// console.log(res);
+	downloadBlob(res)
+	loading.value = false
 }
 
 const onSelect = (value: TableData) => {
 	console.log(value, "onSelect")
-  ids.value = value.map((item) => item.id)
+	ids.value = value.map((item) => item.id)
 }
 
 const onEdit = (value: TableData) => {
@@ -145,7 +145,12 @@ const tableColumns = computed<TableColumns<Environment>>(() => [
 	{
 		key: "keywords",
 		label: "关键词",
-		width: "160",
+		width: "300",
+		value: (row: any) =>
+			h(
+				"div",
+				stringToArray(row.keywords).map((item: any) => h(ElTag, { size: "small", class: "key-tag" }, item))
+			),
 	},
 	{
 		key: "source",
@@ -153,12 +158,12 @@ const tableColumns = computed<TableColumns<Environment>>(() => [
 		width: "160",
 	},
 	{
-		key: 'publishTime',
-    label: '发布时间',
-    width: '160',
-    value: (row: any) => {
-      return row.publishTime?row.publishTime:''
-    }
+		key: "publishTime",
+		label: "发布时间",
+		width: "160",
+		value: (row: any) => {
+			return row.publishTime ? row.publishTime : ""
+		},
 	},
 	{
 		key: "intro",
@@ -228,6 +233,12 @@ const onChangeTime = (value: any) => {
 	getList()
 }
 
+const stringToArray = (input: any) => {
+	if (!input) return []
+	// 使用正则表达式匹配英文逗号和中文逗号，并将其替换为统一的分隔符
+	return input.split(/,|，/)
+}
+
 onMounted(() => {
 	getList()
 })
@@ -254,5 +265,10 @@ onMounted(() => {
 	.content {
 		background-color: var(--cl-container-white-bg);
 	}
+}
+</style>
+<style lang="scss">
+.key-tag {
+	margin-right: 5px;
 }
 </style>

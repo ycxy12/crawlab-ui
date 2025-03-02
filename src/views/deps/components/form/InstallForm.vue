@@ -51,7 +51,7 @@ import useRequest from "@/services/request";
 
 const t = translate;
 
-const endpointL = '/deps/lang';
+const endpointL = '/env/deps/lang';
 
 const {
   get,

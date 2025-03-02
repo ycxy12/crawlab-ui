@@ -34,7 +34,7 @@ import ClNavLink from '@/components/nav/NavLink.vue';
 
 const t = translate;
 
-const endpoint = '/deps/settings';
+const endpoint = '/env/deps/settings';
 
 const {
   getList,
