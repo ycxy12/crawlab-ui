@@ -20,6 +20,7 @@
 				<div class="cover">
 					<img v-if="articleInfo.cover" :src="articleInfo.cover" alt="" />
 				</div>
+        <a v-if="articleInfo.url" :href="articleInfo.url" target="_blank" class="original">查看原文</a>
 			</div>
 		</div>
 		<template #footer>
@@ -118,5 +119,13 @@ p {
 	img {
 		width: 60%;
 	}
+}
+.original{
+  position: absolute;
+  right: 80px;
+  top: 158px;
+  color: #409eff;
+  font-size: 14px;
+  text-decoration: underline;
 }
 </style>
