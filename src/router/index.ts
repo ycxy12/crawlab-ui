@@ -62,26 +62,26 @@ export function getDefaultSidebarMenuItems(): MenuItem[] {
       children: [
         { path: '/projects', title: 'router.menuItems.projects', icon: ['fa', 'project-diagram'] },
         { path: '/spiders', title: 'router.menuItems.spiders', icon: ['fa', 'spider'] },
+        { path: '/schedules', title: 'router.menuItems.schedules', icon: ['fa', 'clock'] },
+        { path: '/tasks', title: 'router.menuItems.tasks', icon: ['fa', 'tasks'] },
       ]
     },
     {
       path: '/clean',
-      title: '数据清洗',
+      title: '数据管理',
       icon: ['fa', 'filter'],
       children: [
         { path: '/collection', title: '采集结果', icon: ['fa', 'square-poll-vertical'] },
-        { path: '/wash', title: '清洗结果', icon: ['fa', 'circle-check'] },
-        { path: '/analysis', title: '数据分析', icon: ['fa', 'chart-line'] },
+        { path: '/wash', title: '处理结果', icon: ['fa', 'circle-check'] },
+        { path: '/analysis', title: '维基百科', icon: ['fa', 'chart-line'] },
       ]
     },
     {
       path: '/manage',
-      title: '数据管理',
+      title: '系统配置',
       icon: ['fa', 'list-check'],
       children: [
         { path: '/nodes', title: 'router.menuItems.nodes', icon: ['fa', 'server'] },
-        { path: '/schedules', title: 'router.menuItems.schedules', icon: ['fa', 'clock'] },
-        { path: '/tasks', title: 'router.menuItems.tasks', icon: ['fa', 'tasks'] },
         { path: '/data-sources', title: 'router.menuItems.ds', icon: ['fa', 'database'] },
         { path: '/users', title: 'router.menuItems.users', icon: ['fa', 'users'] },
         // {path: '/tags', title: 'router.menuItems.tags', icon: ['fa', 'tag']},

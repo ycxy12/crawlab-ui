@@ -20,7 +20,11 @@
 				<div class="cover">
 					<img v-if="articleInfo.cover" :src="articleInfo.cover" alt="" />
 				</div>
-        <a v-if="articleInfo.url" :href="articleInfo.url" target="_blank" class="original">查看原文</a>
+        <div class="summary">词云</div>
+				<div class="info-con">
+					<div ref="chartContainer" style="width: 100%; height: 500px"></div>
+				</div>
+				<a v-if="articleInfo.url" :href="articleInfo.url" target="_blank" class="original">查看原文</a>
 			</div>
 		</div>
 		<template #footer>
@@ -32,23 +36,44 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted } from "vue"
+import { ref, onMounted, onUnmounted, nextTick } from "vue"
+import * as echarts from "echarts"
+import "echarts-wordcloud"
 import useCollectionService from "@/services/collection/collectionService"
 
-const { getCollectionResult } = useCollectionService()
+const { getCollectionResult, getWordFrequency } = useCollectionService()
 
 const dialogVisible = ref(false)
 const loading = ref(false)
 const articleInfo = ref<any>(null)
+  const chartContainer = ref<any>(null) // 图表容器引用
+let chart: any = null // ECharts 实例
+const wordData = ref<any>([])
 
 //打开弹框
-const openDialog = (id: any) => {
+const openDialog = async (id: any) => {
 	if (id) {
-		getCollectionResult(id).then((res: any) => {
+    loading.value = true
+	  await	getCollectionResult(id).then((res: any) => {
 			articleInfo.value = res.data
 		})
+    await	getWordFrequency(id).then((res: any) => {
+			const data = res.data
+			if (data) {
+				wordData.value = Object.keys(data).map((key) => ({
+					name: key,
+					value: data[key],
+				}))
+			} else {
+				wordData.value = []
+			}
+		})
 	}
+	loading.value = false
 	dialogVisible.value = true
+  await nextTick()
+  chart = echarts.init(chartContainer.value)
+	initChart()
 }
 
 //关闭弹窗
@@ -61,6 +86,65 @@ const parseString = (input: any) => {
 	// 使用正则表达式匹配英文逗号和中文逗号，并将其替换为统一的分隔符
 	return input.split(/[,，]\s*/) // 匹配英文逗号 (`,`) 或中文逗号 (`，`)，并去除可能的空格
 }
+
+
+// 初始化图表配置
+const initChart = () => {
+	const options = {
+		tooltip: {},
+		title: {
+			text: "暂无数据",
+			left: "center",
+			top: "center",
+			textStyle: {
+				fontSize: 20,
+				color: "#999",
+			},
+			show: !wordData.value || wordData.value.length === 0, // 根据数据是否为空显示
+		},
+		series: [
+			{
+				type: "wordCloud",
+				shape: "circle", // 形状，可选 'circle', 'cardioid', 'diamond' 等
+				data: wordData.value,
+				sizeRange: [20, 80], // 字体大小范围
+				rotationRange: [0, 45], // 旋转角度范围
+				rotationStep: 45, // 旋转步进角度
+				gridSize: 8, // 布局网格大小
+				drawOutOfBound: false, // 允许超出画布
+				textStyle: {
+					color: () =>
+						`rgb(${[Math.floor(Math.random() * 256), Math.floor(Math.random() * 256), Math.floor(Math.random() * 256)].join(",")})`, // 随机颜色
+				},
+				emphasis: {
+					focus: "self", // 聚焦效果
+					textStyle: {
+						fontWeight: "bold",
+						textShadowBlur: 10,
+						textShadowColor: "#333",
+					},
+				},
+			},
+		],
+	}
+	chart.setOption(options)
+}
+
+// 处理窗口缩放
+const handleResize = () => {
+	chart?.resize()
+}
+
+// 组件挂载时初始化
+onMounted(() => {
+	window.addEventListener("resize", handleResize)
+})
+
+// 组件卸载时清理
+onUnmounted(() => {
+	window.removeEventListener("resize", handleResize)
+	chart?.dispose()
+})
 
 defineExpose({ openDialog })
 </script>
@@ -91,22 +175,13 @@ h3 {
 	& > span {
 		margin-right: 10px;
 	}
-	// button {
-	// 	font-size: 12px;
-	// 	border-radius: 4px;
-	// 	padding: 4px 10px;
-	// 	color: #409eff;
-	// 	background: rgba(0, 84, 251, 0.2);
-	// 	border: 1px solid #70a0ff;
-	// 	margin-right: 15px;
-	// }
 }
 p {
 	margin: 10px 0;
 	color: #333;
 	text-indent: 2em;
 	line-height: 28px;
-  font-size: 16px;
+	font-size: 16px;
 	margin: 0 40px;
 	::v-deep img {
 		width: calc(100% - 4em);
@@ -120,12 +195,29 @@ p {
 		width: 60%;
 	}
 }
-.original{
-  position: absolute;
-  right: 80px;
-  top: 158px;
-  color: #409eff;
-  font-size: 14px;
-  text-decoration: underline;
+.original {
+	position: absolute;
+	right: 80px;
+	top: 158px;
+	color: #409eff;
+	font-size: 14px;
+	text-decoration: underline;
+}
+
+.summary {
+	margin-left: 40px;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	font-size: 16px;
+	font-weight: 600;
+	color: #333;
+}
+
+.info-con {
+	padding: 12px;
+	border: 1px solid #ebeef5;
+	border-radius: 4px;
+	width: calc(100% - 80px);
+	margin: 0 40px;
 }
 </style>

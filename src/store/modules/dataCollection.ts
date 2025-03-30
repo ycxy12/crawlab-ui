@@ -7,6 +7,9 @@ import {
 import {getDefaultPagination} from '@/utils/pagination';
 import useRequest from '@/services/request';
 import {getFieldsFromData} from '@/utils/result';
+import useCollectionService from '@/services/collection/collectionService';
+const { listCollectionResult } = useCollectionService();
+
 
 const {
   getList,
@@ -85,7 +88,11 @@ const actions = {
   ...getDefaultStoreActions<DataCollection>('/data/collections'),
   getResultData: async ({commit}: StoreActionContext<DataCollectionStoreState>, payload: { id: string; params: ListRequestParams }) => {
     const {id, params} = payload;
+    console.log(params, id);
     const res = await getList(`/results/${id}`, params);
+    // const res:any = await listCollectionResult(params);
+    console.log(res);
+    // commit('setResultTableData', {data: res.data.records || [], total: res.data.total});
     commit('setResultTableData', {data: res.data || [], total: res.total});
     return res;
   },

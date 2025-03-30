@@ -28,7 +28,7 @@
     </cl-table>
     </div>
     <editClean ref="editCleanRef" @refresh="getList" />
-    <wordsChart ref="wordsChartRef" />
+    <!-- <wordsChart ref="wordsChartRef" /> -->
     <viewDialog ref="viewDialogRef" />
   </div>
 </template>
@@ -40,14 +40,14 @@ import useCollectionService from '@/services/collection/collectionService';
 import {ACTION_ADD} from '@/constants/action';
 import { ACTION_COPY, ACTION_VIEW, TABLE_COLUMN_NAME_ACTIONS } from "@/constants";
 import editClean from './editClean.vue';
-import wordsChart from './wordsChart.vue';
+// import wordsChart from './wordsChart.vue';
 import viewDialog from './viewDialog.vue';
 import {TABLE_ACTION_CUSTOMIZE_COLUMNS, TABLE_ACTION_EXPORT,} from '@/constants/table';
 
 const { listCollectionResult, deleteCollectionResult,  } = useCollectionService();
 
 const editCleanRef = ref<any>(null)
-const wordsChartRef = ref<any>(null)
+// const wordsChartRef = ref<any>(null)
 const viewDialogRef = ref<any>(null)
 const visibleButtons = [TABLE_ACTION_CUSTOMIZE_COLUMNS, TABLE_ACTION_EXPORT]
 
@@ -124,7 +124,7 @@ const tableColumns = computed<TableColumns<Environment>>(() => [
   },
   {
     key: 'intro',
-    label: '简介',
+    label: '摘要',
     width: 'auto',
     value: (row: any) => {
       return row.intro?row.intro:''
@@ -175,16 +175,6 @@ const tableColumns = computed<TableColumns<Environment>>(() => [
           }
           await getList()
         },
-      },
-      {
-        className: 'view-btn',
-        type: 'primary',
-        icon: ['fa', 'cloud'],
-        tooltip: '词频',
-        onClick: (row) => {
-          wordsChartRef.value?.openDialog(row.id)
-        },
-        action: ACTION_VIEW,
       },
     ],
     disableTransfer: true,

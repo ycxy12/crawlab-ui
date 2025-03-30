@@ -22,10 +22,14 @@
 							@change="onChangeTime"
 						/>
 					</cl-nav-action-item>
+					<cl-nav-action-item v-if="selectedRowsCount > 0">
+						<el-tag type="info">已选择 {{ selectedRowsCount }} 条记录</el-tag>
+						<el-button type="text" @click="clearSelection">清空选择</el-button>
+					</cl-nav-action-item>
 				</cl-nav-action-group>
 			</cl-nav-actions>
 			<cl-table
-				ref="tableRef"
+				ref="clTableRef"
 				:columns="tableColumns"
 				:data="tableData"
 				:total="tableTotal"
@@ -34,6 +38,7 @@
 				:visibleButtons="visibleButtons"
 				selectable
 				:loading="loading"
+				:row-key="(row) => row.id"
 				@selection-change="onSelect"
 				@delete="onDelete"
 				@pagination-change="onPaginationChange"
@@ -45,8 +50,8 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessageBox, ElTag } from "element-plus"
-import { ref, onMounted, reactive, computed, h } from "vue"
+import { ElMessageBox, ElTag, ElButton } from "element-plus"
+import { ref, onMounted, reactive, computed, h, nextTick } from "vue"
 import useCleanService from "@/services/clean/cleanService"
 import { ACTION_COPY, TABLE_COLUMN_NAME_ACTIONS } from "@/constants"
 import { TABLE_ACTION_CUSTOMIZE_COLUMNS, TABLE_ACTION_EXPORT } from "@/constants/table"
@@ -56,7 +61,8 @@ import { downloadBlob } from "@/utils/request"
 const { listSubjectArticle, deleteSubjectArticle, exportSubjectArticle } = useCleanService()
 
 const viewDialogRef = ref<any>(null)
-const visibleButtons = [TABLE_ACTION_CUSTOMIZE_COLUMNS, TABLE_ACTION_EXPORT]
+const clTableRef = ref<any>(null)
+const visibleButtons = [TABLE_ACTION_CUSTOMIZE_COLUMNS]
 
 //列表
 const icon = ["fa", "file-export"]
@@ -64,7 +70,11 @@ const tableData = ref([])
 const times = ref([])
 const loading = ref(false)
 
-const ids = ref<any>([])
+// 跨页选中的ID集合，用Map数据结构存储ID和对应的行数据
+const selectedRows = reactive(new Map())
+const selectedRowsCount = computed(() => selectedRows.size)
+const ids = computed<any>(() => Array.from(selectedRows.keys()))
+
 const tableTotal = ref(0)
 const tablePagination = reactive({
 	page: 1,
@@ -91,6 +101,28 @@ const getList = async () => {
 	const res = await listSubjectArticle(query)
 	tableData.value = res.data.records
 	tableTotal.value = res.data.total
+
+	// 当数据加载完成后，恢复选中状态
+	nextTick(() => {
+		setSelectionByIds()
+	})
+}
+
+// 设置表格选中状态
+const setSelectionByIds = () => {
+	if (!clTableRef.value) return
+
+	// 清除当前页面的选择状态
+	// clTableRef.value.clearSelection()
+
+  // console.log(selectedRows, "clTableRef")
+	// 将当前页中已选中的行设置为选中状态
+	tableData.value.forEach(row => {
+		if (selectedRows.has(row.id)) {
+      // console.log(clTableRef.value.tableRef, "row")
+			clTableRef.value.tableRef.toggleRowSelection(row, true)
+		}
+	})
 }
 
 //新增
@@ -117,8 +149,36 @@ const onExport = async () => {
 }
 
 const onSelect = (value: TableData) => {
-	console.log(value, "onSelect")
-	ids.value = value.map((item) => item.id)
+  console.log(value, "onSelect")
+	// 获取当前页的数据ID
+	const currentPageIds = tableData.value.map((item) => item.id)
+  // console.log(currentPageIds, "currentPageIds")
+
+	// 更新选中记录
+	const selectedIds = value.map((item) => item.id)
+
+	// 处理当前页的选择变化
+	currentPageIds.forEach(id => {
+		if (selectedIds.includes(id)) {
+			// 添加到选中集合
+      const row = tableData.value.find(item => item.id === id)
+			selectedRows.set(id, row)
+      // console.log(selectedRows, "set")
+		} else {
+			// 从选中集合中移除
+			selectedRows.delete(id)
+      // console.log(selectedRows, "delete")
+		}
+	})
+}
+
+// 清空所有选择
+const clearSelection = () => {
+	console.log(selectedRows, "clearSelection")
+	selectedRows.clear()
+	if (clTableRef.value) {
+		clTableRef.value.clearSelection()
+	}
 }
 
 const onEdit = (value: TableData) => {
@@ -167,7 +227,7 @@ const tableColumns = computed<TableColumns<Environment>>(() => [
 	},
 	{
 		key: "intro",
-		label: "简介",
+		label: "摘要",
 		width: "auto",
 		value: (row: any) => {
 			return row.intro ? row.intro : ""
@@ -238,6 +298,8 @@ const stringToArray = (input: any) => {
 	// 使用正则表达式匹配英文逗号和中文逗号，并将其替换为统一的分隔符
 	return input.split(/,|，/)
 }
+
+
 
 onMounted(() => {
 	getList()
