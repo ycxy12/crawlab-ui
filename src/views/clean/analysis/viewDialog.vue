@@ -1,6 +1,6 @@
 <template>
 	<el-dialog v-model="dialogVisible" title="详情" top="15vh" width="80vw" :before-close="handleClose">
-		<div class="analysis">
+		<div class="wiki_dialog">
 			<h3 @click="handleTitleClick">{{ form.title }}</h3>
 			<div class="wiki_content">
 				<div ref="rightRef" class="right" v-if="form.contentInfo && form.contentInfo.infoboxTable && form.contentInfo.infoboxTable.length > 0">
@@ -124,13 +124,14 @@ defineExpose({ openDialog })
 </script>
 
 <style lang="scss">
-.analysis {
+.wiki_dialog {
 	h3 {
 		font-size: 24px;
 		font-weight: bold;
 		margin-bottom: 20px;
 		border-bottom: 1px solid #a2a9b1;
 		padding-bottom: 10px;
+    text-align: left;
 		&:hover {
 			color: #3056a9;
 			cursor: pointer;
