@@ -61,6 +61,12 @@
 						</div>
 					</div>
 				</div>
+        <div class="images" v-if="articleInfo.images && articleInfo.images.length > 0">
+          <img  :src="articleInfo.images[activeImage].url" alt="" class="first" />
+          <div>
+            <img v-for="(image, index) in articleInfo.images" :key="index" :src="image.url" alt="" :class="{active: activeImage === index}" @click="handleImageClick(index)" />
+          </div>
+        </div>
 				<!-- <div class="summary">词云</div>
 				<div class="info-conent">
 					<div ref="chartContainer" style="width: 100%; height: 500px"></div>
@@ -122,11 +128,17 @@ const openDialog = async (id: any) => {
 	// initChart()
 }
 
+const activeImage = ref<number>(0)
+const handleImageClick = (index: number) => {
+  activeImage.value = index
+}
+
 //关闭弹窗
 const handleClose = () => {
 	dialogVisible.value = false
 	comparison.value = false
 	articleInfo.value = null
+  activeImage.value = 0
 }
 
 // 判断是否存在有效换行
@@ -425,6 +437,28 @@ p {
 	img {
 		width: 60%;
 	}
+}
+.images{
+  text-align: center;
+  .first{
+    width: 50%;
+    margin-bottom:10px
+  }
+  div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img{
+      width: 100px;
+      height: 100px;
+      margin-right: 10px;
+      border: 1px solid #a2a9b1;
+      cursor: pointer;
+    }
+    .active{
+      border: 1px solid #409eff;
+    }
+  }
 }
 .original {
 	position: absolute;

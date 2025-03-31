@@ -1,29 +1,52 @@
 <template>
-	<el-dialog v-model="dialogVisible" title="数据分析详情" top="15vh" width="80vw" :before-close="handleClose">
+	<el-dialog v-model="dialogVisible" title="详情" top="15vh" width="80vw" :before-close="handleClose">
 		<div class="analysis">
-      <div>
-				<span class="analysis_label">采集结果标题：</span>
-				<p>{{ form.collectionResulTitle }}</p>
-			</div>
-			<div>
-				<span class="analysis_label">简介：</span>
-				<p>{{ form.intro }}</p>
-			</div>
-			<div>
-				<span class="analysis_label">要素信息：</span>
-				<div class="info-con">
-					<div class="info-row" v-for="item in getData(form.elementInfo)" :key="item.label">
-						<span class="info-label">{{ categoryLabels[item.label] }}:</span>
-						<div class="info-content">
-							<el-tag
-								v-for="(cell, index) in item.value"
-								:key="index"
-								:type="categoryColorMap[item.label]"
-								size="small"
-								class="info-tag"
-								>{{ cell }}</el-tag
-							>
+			<h3 @click="handleTitleClick">{{ form.title }}</h3>
+			<div class="wiki_content">
+				<div ref="rightRef" class="right" v-if="form.contentInfo && form.contentInfo.infoboxTable && form.contentInfo.infoboxTable.length > 0">
+					<div class="infobox">
+            <template v-for="(item, index) in form.contentInfo.infoboxTable" :key="index">
+              <div class="info_title" v-if="item&&item.length===1">{{ item[0] }}</div>
+              <img v-if="index===0&&form.images&&form.images.length>0" :src="form.images[0].url" alt="">
+              <div class="info_content" v-if="item&&item.length>1">
+                <p v-html="item[0].replace(/\n/g, '<br/>')"></p>
+                <!-- 遇到 /n 换行 -->
+                <div v-html="item[1].replace(/\n/g, '<br/>')"></div>
+              </div>
+            </template>
+          </div>
+				</div>
+				<div ref="leftRef" class="left">
+					<!-- 描述 -->
+					<div class="desc" v-if="form.contentInfo && form.contentInfo.segment && form.contentInfo.segment.text && form.contentInfo.segment.text.length > 0">
+						<p v-for="item in form.contentInfo.segment.text" :key="item.index">{{ item }}</p>
+					</div>
+					<!-- 段落 -->
+					<div class="segment" v-if="form.contentInfo && form.contentInfo.segment && form.contentInfo.segment.children && form.contentInfo.segment.children.length > 0">
+						<template v-for="(item, index) in form.contentInfo.segment.children" :key="index">
+							<h4>{{ item.title }}</h4>
+							<p v-for="cell in item.text" :key="cell">{{ cell }}</p>
+							<div v-if="item.children">
+								<template v-for="(child, idx) in item.children" :key="idx">
+									<h4>{{ child.title }}</h4>
+									<p v-for="element in item.text" :key="element">{{ element }}</p>
+								</template>
+							</div>
+						</template>
+					</div>
+					<!-- 参考文献 -->
+					<div class="references">
+						<div class="reference_list">
+							<div class="reference_item" v-for="item in form.references" :key="item.index">
+								<span>{{ item.index }}. </span>
+								<a :href="item.url" target="_blank">{{ item.text }}</a>
+							</div>
 						</div>
+					</div>
+					<!-- 分类 -->
+					<div class="categories">
+						<span>分类：</span>
+						<em v-for="item in form.categories" :key="item">{{ item }}</em>
 					</div>
 				</div>
 			</div>
@@ -37,23 +60,59 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted } from "vue"
+import { ref, nextTick, watch } from "vue"
 import useAnalysisService from "@/services/analysis/analysisService"
 
-const { getAnalysisResult } = useAnalysisService()
+const { getWiki } = useAnalysisService()
 
 const dialogVisible = ref(false)
 const loading = ref(false)
 const form = ref<any>({})
+const rightRef = ref<HTMLElement | null>(null)
+const leftRef = ref<HTMLElement | null>(null)
+
+// 调整左侧区域的最小高度
+const adjustLeftHeight = () => {
+  nextTick(() => {
+    if (rightRef.value && leftRef.value && form.value.contentInfo?.infoboxTable?.length > 0) {
+      const rightHeight = rightRef.value.offsetHeight
+      leftRef.value.style.minHeight = `${rightHeight}px`
+      console.log('右侧高度:', rightHeight, '设置左侧最小高度')
+    }
+  })
+}
+
+// 监听数据变化
+watch(() => form.value.contentInfo, () => {
+  adjustLeftHeight()
+}, { deep: true })
+
+// 监听对话框显示状态
+watch(dialogVisible, (newVal) => {
+  if (newVal) {
+    // 对话框显示时，等待内容渲染后再调整高度
+    nextTick(() => {
+      adjustLeftHeight()
+    })
+  }
+})
 
 //打开弹框
 const openDialog = (id: any) => {
 	if (id) {
-		getAnalysisResult(id).then((res: any) => {
+		getWiki(id).then((res: any) => {
 			form.value = res.data
+      nextTick(() => {
+        adjustLeftHeight()
+      })
 		})
 	}
 	dialogVisible.value = true
+}
+
+//点击标题
+const handleTitleClick = () => {
+	window.open(form.value.url, "_blank")
 }
 
 //关闭弹窗
@@ -61,115 +120,121 @@ const handleClose = () => {
 	dialogVisible.value = false
 }
 
-const getData = (elementInfo: any) => {
-  if (!elementInfo) return []
-	return Object.entries(elementInfo)
-		.filter(([key, value]: any) => value?.length > 0)
-		.map(([key, items]: any) => {
-			return {
-				label: key,
-				value: elementInfo[key],
-			}
-		})
-}
-
-// 分类颜色映射
-const categoryColorMap: Record<string, string> = {
-	 // 基础信息类
-   country: 'primary',   // 蓝色（国家）
-  job: 'success',       // 绿色（职位）
-  location: 'warning',  // 橙色（地点）
-  people: 'danger',     // 红色（人物）
-  time: 'magenta',      // 品红（时间，自定义）
-
-  // 军事信息类
-  troops: 'purple',     // 紫色（部队）
-  zb_Army: '#2c6e49',  // 陆军装备-深绿（自定义）
-  zb_Firearms: '#d4a017', // 轻武器-金色（自定义）
-  zb_Plane: '#0e7490', // 飞机-深青（自定义）
-  zb_Ship: '#1e3a8a',  // 舰船-海军蓝（自定义）
-  zb_other: '#4b5563', // 其他装备-灰（自定义）
-
-  // 空分类（低优先级）
-  o: 'default',         // 默认灰色（其他）
-  org: 'info'           // 青色（组织）
-}
-const categoryLabels: any = {
-	country: "国家",
-	job: "职位",
-	location: "地点",
-	o: "其他",
-	org: "组织",
-	people: "人物",
-	time: "时间",
-	troops: "部队",
-	zb_Army: "陆军装备",
-	zb_Firearms: "轻武器",
-	zb_Plane: "飞机",
-	zb_Ship: "舰船",
-	zb_other: "其他装备",
-}
-
 defineExpose({ openDialog })
 </script>
 
 <style lang="scss">
 .analysis {
-	.analysis_label {
+	h3 {
+		font-size: 24px;
 		font-weight: bold;
-		padding-right: 20px;
-		text-align: right;
-		width: 120px;
-    flex-shrink: 0;
-	}
-	p {
-		margin: 0;
-    line-height: 24px;
-    text-indent: inherit;
-	}
-	& > div {
-		display: flex;
 		margin-bottom: 20px;
+		border-bottom: 1px solid #a2a9b1;
+		padding-bottom: 10px;
+		&:hover {
+			color: #3056a9;
+			cursor: pointer;
+		}
 	}
-}
-.info-con {
-	padding: 12px;
-	border: 1px solid #ebeef5;
-	border-radius: 4px;
-	width: 100%;
-}
+	.wiki_content {
+		position: relative;
+    overflow: hidden; /* 创建BFC以处理浮动元素 */
+		h4 {
+			font-size: 20px;
+			font-weight: bold;
+			border-bottom: 1px solid #a2a9b1;
+			padding-bottom: 10px;
+		}
+		.left {
+			/* 将会由JavaScript动态设置min-height */
+			.desc {
+				font-size: 16px;
+				line-height: 24px;
+				margin-bottom: 20px;
+			}
+			.segment {
+				font-size: 16px;
+				line-height: 24px;
+				margin-bottom: 20px;
+			}
+			.references {
+				font-size: 16px;
+				line-height: 24px;
+				margin-bottom: 20px;
+				a {
+					color: #3056a9;
+				}
+			}
+			.categories {
+				font-size: 16px;
+				color: #3056a9;
+				border: 1px solid #a2a9b1;
+				background: #f8f9fa;
+				padding: 5px;
+				width: max-content;
+				em {
+					font-style: normal;
+					&:not(:last-child) {
+						margin-right: 10px;
+						&::after {
+							content: "|";
+							margin-left: 10px;
+						}
+					}
+				}
+			}
+			.reference_item {
+				display: flex;
+				margin-bottom: 10px;
+				a {
+					color: #3056a9;
+					cursor: pointer;
+				}
+			}
+		}
+		.right {
+			width: 350px;
+			background: #fff;
+			float: right;
+			clear: right;
+      margin-left: 15px;
+      margin-bottom: 15px;
 
-.info-row {
-	display: flex;
-	align-items: flex-start;
-	margin-bottom: 8px;
-	line-height: 28px;
-
-	&:last-child {
-		margin-bottom: 0;
+			.infobox {
+				margin-left: 15px;
+				margin-top: 10px;
+				margin-bottom: 10px;
+				padding: 5px;
+				border: 1px solid #a2a9b1;
+				border-spacing: 3px;
+				background-color: #f8f9fa;
+        .info_title{
+          font-size: 16px;
+          font-weight: bold;
+          margin-bottom: 10px;
+          background: #eee;
+          line-height: 30px;
+          text-align: center;
+        }
+        img{
+          width: 100%;
+        }
+        .info_content{
+          display: flex;
+          p{
+            line-height: 30px;
+            width: 100px;
+            margin: 0;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-right: 10px;
+          }
+          div{
+            line-height: 30px;
+          }
+        }
+			}
+		}
 	}
-}
-
-.info-label {
-	flex-shrink: 0;
-	width: 80px;
-	font-weight: bold;
-	color: #606266;
-}
-
-.info-content {
-	flex: 1;
-	display: flex;
-	flex-wrap: wrap;
-	gap: 6px;
-}
-
-.info-tag {
-	margin: 2px;
-}
-
-.empty-tag {
-	color: #909399;
-	font-style: italic;
 }
 </style>

@@ -1,16 +1,13 @@
 <template>
 	<div class="list-layout">
 		<div class="content">
-			<!-- <cl-nav-actions  class="nav-actions">
+			<cl-nav-actions  class="nav-actions">
             <cl-nav-action-group>
               <cl-nav-action-item>
-                <cl-nav-action-button v-auth="ACTION_ADD" button-type="label" label="添加清洗文章" tooltip="添加清洗文章" type="success" :icon="icon" @click="onAdd" />
-              </cl-nav-action-item>
-              <cl-nav-action-item>
-                <cl-filter-input placeholder="请输入标题" @change="onChange" />
+                <cl-filter-input placeholder="请输入关键字" @change="onChange" />
               </cl-nav-action-item>
             </cl-nav-action-group>
-          </cl-nav-actions> -->
+          </cl-nav-actions>
 			<cl-table
 				ref="tableRef"
 				:columns="tableColumns"
@@ -32,7 +29,6 @@
 </template>
 
 <script setup lang="ts">
-import { ElTag } from "element-plus"
 import { ElMessageBox } from "element-plus"
 import { ref, onMounted, reactive, computed, h } from "vue"
 import useAnalysisService from "@/services/analysis/analysisService"
@@ -40,7 +36,7 @@ import { TABLE_COLUMN_NAME_ACTIONS } from "@/constants"
 import viewDialog from './viewDialog.vue';
 import {TABLE_ACTION_CUSTOMIZE_COLUMNS, TABLE_ACTION_EXPORT,} from '@/constants/table';
 
-const { listAnalysisResult, deleteAnalysisResult } = useAnalysisService()
+const { listWiki, deleteWiki } = useAnalysisService()
 
 const viewDialogRef = ref<any>(null)
 const visibleButtons = [TABLE_ACTION_CUSTOMIZE_COLUMNS, TABLE_ACTION_EXPORT]
@@ -54,7 +50,7 @@ const tablePagination = reactive({
 	size: 10,
 })
 const getList = async () => {
-	const res = await listAnalysisResult({ page: tablePagination.page, size: tablePagination.size, title: title.value })
+	const res = await listWiki({ page: tablePagination.page, size: tablePagination.size, keywords: keywords.value })
 	tableData.value = res.data.records
 	tableTotal.value = res.data.total
 }
@@ -83,99 +79,28 @@ const onPaginationChange = (value: TablePagination) => {
 	getList()
 }
 
-// 分类颜色映射
-const categoryColorMap: Record<string, string> = {
-	 // 基础信息类
-  country: 'primary',   // 蓝色（国家）
-  job: 'success',       // 绿色（职位）
-  location: 'warning',  // 橙色（地点）
-  people: 'danger',     // 红色（人物）
-  time: 'magenta',      // 品红（时间，自定义）
-
-  // 军事信息类
-  troops: 'purple',     // 紫色（部队）
-  zb_Army: '#2c6e49',  // 陆军装备-深绿（自定义）
-  zb_Firearms: '#d4a017', // 轻武器-金色（自定义）
-  zb_Plane: '#0e7490', // 飞机-深青（自定义）
-  zb_Ship: '#1e3a8a',  // 舰船-海军蓝（自定义）
-  zb_other: '#4b5563', // 其他装备-灰（自定义）
-
-  // 空分类（低优先级）
-  o: 'default',         // 默认灰色（其他）
-  org: 'info'           // 青色（组织）
-}
-const categoryLabels: any = {
-	country: "国家",
-	job: "职位",
-	location: "地点",
-	o: "其他",
-	org: "组织",
-	people: "人物",
-	time: "时间",
-	troops: "部队",
-	zb_Army: "陆军装备",
-	zb_Firearms: "轻武器",
-	zb_Plane: "飞机",
-	zb_Ship: "舰船",
-	zb_other: "其他装备",
-}
 
 const tableColumns = computed<TableColumns<Environment>>(() => [
   {
-		key: "collectionResulTitle",
-		label: "采集结果标题",
+		key: "title",
+		label: "名称",
 		width: "300",
 	},
 	{
-		key: "intro",
-		label: "简介",
+		key: "keywords",
+		label: "关键字",
 		width: "500",
-    value: (row: any) => h("div", {
-      class: "intro",
-      innerHTML: row.intro // 替代 v-html
-    })
 	},
 	{
-		key: "elementInfo",
-		label: "要素信息",
+		key: "desc",
+		label: "描述",
 		width: "auto",
-		value: (row: any) =>
-			h(
-				"div",
-				{ class: "info-container" },
-        (row.elementInfo?Object.entries(row.elementInfo):[]).filter(([key, value]:any) => value.length > 0)
-					.map(([key, items]: any) => {
-						const label = categoryLabels[key] || key
-						const color = categoryColorMap[key] || "info"
-
-						return h("div", { class: "info-row" }, [
-							h("span", { class: "info-label" }, label + ":"), // 分类标签
-							h(
-								"div",
-								{ class: "info-content" },
-								items.length > 0
-									? items.map((item:any) =>
-											h(
-												ElTag,
-												{
-													type: color,
-													size: "small",
-													class: "info-tag",
-												},
-												item
-											)
-									  )
-									: h("span", { class: "empty-tag" }, "-") // 空值占位
-							),
-						])
-					})
-			),
 	},
 	{
 		key: TABLE_COLUMN_NAME_ACTIONS,
 		label: "操作",
 		fixed: "right",
-		width: "200",
+		width: "100",
 		buttons: [
 			{
 				type: "primary",
@@ -186,31 +111,30 @@ const tableColumns = computed<TableColumns<Environment>>(() => [
 					viewDialogRef.value?.openDialog(row.id)
 				},
 			},
-			{
-				type: "danger",
-				size: "small",
-				icon: ["fa", "trash-alt"],
-				tooltip: "删除",
-				onClick: async (row: any) => {
-					const res = await ElMessageBox.confirm("您是否确定删除?", "删除", {
-						type: "warning",
-						confirmButtonClass: "el-button--danger",
-					})
+			// {
+			// 	type: "danger",
+			// 	size: "small",
+			// 	icon: ["fa", "trash-alt"],
+			// 	tooltip: "删除",
+			// 	onClick: async (row: any) => {
+			// 		const res = await ElMessageBox.confirm("您是否确定删除?", "删除", {
+			// 			type: "warning",
+			// 			confirmButtonClass: "el-button--danger",
+			// 		})
 
-					if (res) {
-						await deleteAnalysisResult(row.id as string)
-					}
-					await getList()
-				},
-			},
+			// 		if (res) {
+			// 			await deleteWiki(row.id as string)
+			// 		}
+			// 		await getList()
+			// 	},
+			// },
 		],
 		disableTransfer: true,
 	},
 ])
-const title = ref("")
+const keywords = ref("")
 const onChange = (value: string) => {
-	console.log(value, "onChange")
-	title.value = value
+	keywords.value = value
 	getList()
 }
 
