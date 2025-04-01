@@ -29,7 +29,7 @@
 							<div v-if="item.children">
 								<template v-for="(child, idx) in item.children" :key="idx">
 									<h4>{{ child.title }}</h4>
-									<p v-for="element in item.text" :key="element">{{ element }}</p>
+									<p v-for="element in child.text" :key="element">{{ element }}</p>
 								</template>
 							</div>
 						</template>

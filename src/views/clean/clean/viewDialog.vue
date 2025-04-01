@@ -43,6 +43,14 @@
 					<div class="cover" v-if="articleInfo.cover">
 						<img :src="articleInfo.cover" alt="" />
 					</div>
+          <div class="images" v-if="articleInfo.images && articleInfo.images.length > 0">
+            <img  :src="articleInfo.images[activeImage].url" alt="" class="first" />
+            <div>
+              <div>
+                <img v-for="(image, index) in articleInfo.images" :key="index" :src="image.url" alt="" :class="{active: activeImage === index}" @click="handleImageClick(index)" />
+              </div>
+            </div>
+          </div>
 				</div>
 
 				<div class="summary">要素信息：</div>
@@ -61,12 +69,6 @@
 						</div>
 					</div>
 				</div>
-        <div class="images" v-if="articleInfo.images && articleInfo.images.length > 0">
-          <img  :src="articleInfo.images[activeImage].url" alt="" class="first" />
-          <div>
-            <img v-for="(image, index) in articleInfo.images" :key="index" :src="image.url" alt="" :class="{active: activeImage === index}" @click="handleImageClick(index)" />
-          </div>
-        </div>
 				<!-- <div class="summary">词云</div>
 				<div class="info-conent">
 					<div ref="chartContainer" style="width: 100%; height: 500px"></div>
@@ -444,10 +446,14 @@ p {
     width: 50%;
     margin-bottom:10px
   }
-  div{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  &>div{
+    width: 100%;
+    overflow-x: auto;
+    &>div{
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
     img{
       width: 100px;
       height: 100px;

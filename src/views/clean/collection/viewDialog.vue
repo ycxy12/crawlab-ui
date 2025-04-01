@@ -16,14 +16,24 @@
 				<div class="tags">
 					<el-tag v-for="(element, index) in parseString(articleInfo.keywords)" :key="index" type="primary">{{ element }}</el-tag>
 				</div>
-				<p v-html="articleInfo.content"></p>
+				<!-- <p v-html="articleInfo.content"></p> -->
+        <div class="content_info">
+						<template v-if="hasNewlines">
+							<p v-for="(paragraph, index) in processedParagraphs" :key="index" class="paragraph" v-html="paragraph"></p>
+						</template>
+						<template v-else>
+							<p v-html="articleInfo.content"></p>
+						</template>
+					</div>
 				<div class="cover">
 					<img v-if="articleInfo.cover" :src="articleInfo.cover" alt="" />
 				</div>
         <div class="images" v-if="articleInfo.images && articleInfo.images.length > 0">
           <img  :src="articleInfo.images[activeImage].url" alt="" class="first" />
           <div>
-            <img v-for="(image, index) in articleInfo.images" :key="index" :src="image.url" alt="" :class="{active: activeImage === index}" @click="handleImageClick(index)" />
+            <div>
+              <img v-for="(image, index) in articleInfo.images" :key="index" :src="image.url" alt="" :class="{active: activeImage === index}" @click="handleImageClick(index)" />
+            </div>
           </div>
         </div>
         <div class="summary">词云</div>
@@ -42,7 +52,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted, nextTick } from "vue"
+import { ref, onMounted, onUnmounted, nextTick, computed } from "vue"
 import * as echarts from "echarts"
 import "echarts-wordcloud"
 import useCollectionService from "@/services/collection/collectionService"
@@ -87,6 +97,16 @@ const handleClose = () => {
 	dialogVisible.value = false
   activeImage.value = 0
 }
+
+// 判断是否存在有效换行
+const hasNewlines = computed(() => {
+	return /\n/.test(articleInfo.value.content)
+})
+
+const processedParagraphs = computed(() => {
+	return articleInfo.value.content.split("\n").filter((p: any) => p.trim() !== "")
+})
+
 
 const parseString = (input: any) => {
 	if (!input) return []
@@ -212,16 +232,24 @@ p {
     width: 50%;
     margin-bottom:10px
   }
-  div{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  &>div{
+    width: 100%;
+    overflow-x: auto;
+    &>div{
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
     img{
+      flex-shrink: 0;
       width: 100px;
       height: 100px;
       margin-right: 10px;
       border: 1px solid #a2a9b1;
       cursor: pointer;
+    }
+    img:last-child{
+      margin-right: 0;
     }
     .active{
       border: 1px solid #409eff;
