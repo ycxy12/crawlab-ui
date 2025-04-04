@@ -89,12 +89,16 @@ const actions = {
   getResultData: async ({commit}: StoreActionContext<DataCollectionStoreState>, payload: { id: string; params: ListRequestParams }) => {
     const {id, params} = payload;
     console.log(params, id);
-    const res = await getList(`/results/${id}`, params);
-    // const res:any = await listCollectionResult(params);
-    console.log(res);
-    // commit('setResultTableData', {data: res.data.records || [], total: res.data.total});
-    commit('setResultTableData', {data: res.data || [], total: res.total});
-    return res;
+    if(params.conditions && params.conditions[0].key === '_tid') {
+      const res:any = await listCollectionResult({page: params.page, size: params.size, tid: params.conditions[0].value});
+      commit('setResultTableData', {data: res.data.records || [], total: res.data.total});
+      return res;
+    } else {
+      const res = await getList(`/results/${id}`, params);
+      commit('setResultTableData', {data: res.data || [], total: res.total});
+      return res;
+    }
+
   },
 } as DataCollectionStoreActions;
 
