@@ -12,6 +12,7 @@
     :table-actions-prefix="tableActionsPrefix"
     :no-actions="noActions"
     :embedded="embedded"
+    :visible-buttons="visibleButtons"
   >
     <template #extra>
       <!-- Dialogs (handled by store) -->
@@ -51,6 +52,7 @@ export default defineComponent({
       actionFunctions,
       tableActionsPrefix,
       activeDialogKey,
+      visibleButtons,
     } = useSpiderList();
 
     return {
@@ -64,6 +66,7 @@ export default defineComponent({
       actionFunctions,
       tableActionsPrefix,
       activeDialogKey,
+      visibleButtons,
     };
   },
 });

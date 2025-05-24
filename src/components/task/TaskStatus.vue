@@ -78,7 +78,7 @@ export default defineComponent({
         case TASK_STATUS_ERROR:
           return {
             label: t('components.task.status.label.error'),
-            tooltip: `${t('components.task.status.tooltip.error')}<br><span style="color: 'var(--cl-red)">${error}</span>`,
+            tooltip: `${t('components.task.status.tooltip.error')}<br><span style="color: 'var(--cl-red)">${error?error:'运行错误'}</span>`,
             type: 'danger',
             icon: ['fa', 'times'],
           };

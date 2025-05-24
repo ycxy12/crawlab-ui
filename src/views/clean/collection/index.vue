@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang='ts'>
-import { ElMessageBox, ElTag } from 'element-plus';
+import { ElMessageBox, ElTag, ElTooltip } from 'element-plus';
 import { ref, onMounted, reactive, computed, h } from 'vue'
 import useCollectionService from '@/services/collection/collectionService';
 import {ACTION_ADD} from '@/constants/action';
@@ -105,8 +105,14 @@ const tableColumns = computed<TableColumns<Environment>>(() => [
     width: '300',
     value: (row: any) =>
     h(
-      "div",
-      stringToArray(row.keywords).map((item: any) => h(ElTag, { size: "small", class: "key-tag" }, item))
+      "div", 
+      stringToArray(row.keywords).map((item: any) => 
+        item.length > 16 
+          ? h(ElTag, { size: "small", class: "key-tag" }, [
+              h(ElTooltip, { content: item }, () => item.slice(0, 16) + '...')
+            ])
+          : h(ElTag, { size: "small", class: "key-tag" }, item)
+      )
     ),
   },
   {

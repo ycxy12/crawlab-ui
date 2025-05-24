@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip :content="tooltip" :disabled="!tooltip">
+  <el-tooltip :content="tooltip" :disabled="!tooltip" placement="top">
     <span
       :id="id"
       :class="cls"

@@ -1,6 +1,8 @@
 import {createApp} from '@/package';
 // import {getDemoRoutes} from '@/demo/router';
 
+import "./validator.js"
+
 (function () {
   // create app options
   const options = {} as CreateAppOptions;

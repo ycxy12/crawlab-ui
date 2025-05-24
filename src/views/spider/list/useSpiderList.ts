@@ -350,6 +350,12 @@ const useSpiderList = () => {
   //   commit(`${ns}/showDialog`, 'run');
   // };
 
+  const visibleButtons = computed<string[]>(() => {
+    return [
+      ACTION_DELETE,
+    ];
+  });
+
   // options
   const opts = {
     navActions,
@@ -362,6 +368,7 @@ const useSpiderList = () => {
   return {
     ...useList<Spider>(ns, store, opts),
     tableActionsPrefix,
+    visibleButtons,
   };
 };
 

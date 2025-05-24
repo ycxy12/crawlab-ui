@@ -1,5 +1,5 @@
 <template>
-	<el-dialog v-model="dialogVisible" title="创建" top="15vh" width="80vw" :before-close="handleClose">
+	<el-dialog v-model="dialogVisible" title="创建" top="15vh" width="80vw" append-to-body :before-close="handleClose">
 		<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="auto" class="demo-ruleForm" status-icon>
 			<el-row :gutter="20">
 				<el-col :span="12">

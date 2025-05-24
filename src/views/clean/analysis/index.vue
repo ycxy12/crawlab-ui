@@ -39,7 +39,7 @@ import {TABLE_ACTION_CUSTOMIZE_COLUMNS, TABLE_ACTION_EXPORT,} from '@/constants/
 const { listWiki, deleteWiki } = useAnalysisService()
 
 const viewDialogRef = ref<any>(null)
-const visibleButtons = [TABLE_ACTION_CUSTOMIZE_COLUMNS, TABLE_ACTION_EXPORT]
+const visibleButtons = ['无']
 
 //列表
 const tableData = ref<any>([])

@@ -1,13 +1,13 @@
 <template>
   <div class="nav-tabs">
-    <el-tooltip
+    <!-- <el-tooltip
       v-if="toggle"
       :content="collapsed ? t('components.nav.tabs.toggle.expand') : t('components.nav.tabs.toggle.collapse')"
     >
       <div class="toggle" @click="onToggle">
         <font-awesome-icon :icon="collapsed ? ['fa', 'indent'] : ['fa', 'outdent']"/>
       </div>
-    </el-tooltip>
+    </el-tooltip> -->
     <el-menu
       :default-active="activeKey"
       mode="horizontal"

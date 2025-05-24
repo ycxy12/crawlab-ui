@@ -18,11 +18,11 @@
     </cl-draggable-list>
 
     <!-- Add cl-tab -->
-    <cl-action-tab
+    <!-- <cl-action-tab
       :icon="['fa', 'plus']"
       class="add-tab"
       @click="onAddTab"
-    />
+    /> -->
     <!-- ./Add cl-tab -->
   </div>
 </template>

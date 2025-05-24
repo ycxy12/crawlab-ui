@@ -182,7 +182,7 @@ const useTaskList = () => {
       key: 'node_id',
       label: t('views.tasks.table.columns.node'),
       icon: ['fa', 'server'],
-      width: '160',
+      width: '300',
       value: (row: Task) => {
         if (!row.node_id) return;
         const node = allNodeDict.value.get(row.node_id);
