@@ -249,7 +249,12 @@ export default defineComponent({
     ]);
 
     const onMetricClick = (m: MetricMeta) => {
-      if (m.path) {
+      if (m.key === 'error_tasks') {
+        router.push({
+          name: 'TaskList',
+          params: {status: 'error'},
+        });
+      } else if (m.path) {
         router.push(m.path);
       }
     };

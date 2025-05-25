@@ -1,10 +1,10 @@
 import useList from '@/layouts/content/list/list';
 import {useStore} from 'vuex';
-import {computed, h} from 'vue';
+import {computed, h, onMounted, nextTick} from 'vue';
 import NavLink from '@/components/nav/NavLink.vue';
 import TaskStatus from '@/components/task/TaskStatus.vue';
 import {TABLE_COLUMN_NAME_ACTIONS} from '@/constants/table';
-import {useRouter} from 'vue-router';
+import {useRouter, useRoute} from 'vue-router';
 import {ElMessage, ElMessageBox} from 'element-plus';
 import useRequest from '@/services/request';
 import TaskPriority from '@/components/task/TaskPriority.vue';
@@ -50,7 +50,7 @@ const useTaskList = () => {
 
   // router
   const router = useRouter();
-
+  const route = useRoute();
   // use list
   const {
     actionFunctions,
@@ -473,6 +473,13 @@ const useTaskList = () => {
 
   // init
   setupListComponent(ns, store, ['node', 'project', 'spider', 'schedule']);
+
+  onMounted(() => {
+    nextTick(() => {
+      const fn = onListFilterChangeByKey(store, ns, 'status', FILTER_OP_EQUAL);
+      fn(route.params.status as string);
+    });
+  });
 
   return {
     ...useList<Task>(ns, store, opts),
