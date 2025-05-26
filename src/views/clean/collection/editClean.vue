@@ -18,9 +18,9 @@
 					</el-form-item>
 				</el-col>
 				<el-col :span="12">
-					<el-form-item label="发布时间" prop="releaseTime">
+					<el-form-item label="发布时间" prop="publishTime">
 						<el-date-picker
-							v-model="ruleForm.releaseTime"
+							v-model="ruleForm.publishTime"
 							type="datetime"
 							placeholder="选择日期时间"
 							value-format="YYYY-MM-DD HH:mm:ss"
@@ -82,7 +82,7 @@ const ruleForm = reactive<any>({
 	title: "",
 	keywords: "",
 	source: "",
-	releaseTime: "",
+	publishTime: "",
 	intro: "",
 	content: "",
 	cover: "",
@@ -94,7 +94,7 @@ const rules = reactive<any>({
 	title: [{ required: true, message: "请输入标题", trigger: "blur" }],
 	keywords: [{ required: true, message: "请输入关键词", trigger: "blur" }],
 	source: [{ required: true, message: "请输入来源", trigger: "blur" }],
-	releaseTime: [{ required: true, message: "请选择日期时间", trigger: "blur" }],
+	publishTime: [{ required: true, message: "请选择日期时间", trigger: "blur" }],
 	intro: [{ required: true, message: "请输入简介", trigger: "blur" }],
 	content: [{ required: true, message: "请输入正文", trigger: "blur" }],
 })
@@ -108,7 +108,7 @@ const openDialog = (id: any) => {
 			ruleForm.title = data.title
 			ruleForm.keywords = data.keywords
 			ruleForm.source = data.source
-			ruleForm.releaseTime = data.releaseTime
+			ruleForm.publishTime = data.publishTime
 			ruleForm.intro = data.intro
 			ruleForm.content = data.content
 			ruleForm.cover = data.cover

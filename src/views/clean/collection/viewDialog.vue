@@ -10,7 +10,7 @@
 			>
 				<h3>{{ articleInfo.title }}</h3>
 				<div class="sub_title">
-					<span>{{ articleInfo.releaseTime }}</span>
+					<span>{{ articleInfo.publishTime }}</span>
 					<span>{{ articleInfo.source }}</span>
 				</div>
 				<div class="tags">

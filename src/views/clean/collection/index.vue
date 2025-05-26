@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang='ts'>
-import { ElMessageBox, ElTag, ElTooltip } from 'element-plus';
+import { ElMessageBox, ElTag, ElTooltip, ElMessage } from 'element-plus';
 import { ref, onMounted, reactive, computed, h } from 'vue'
 import useCollectionService from '@/services/collection/collectionService';
 import {ACTION_ADD} from '@/constants/action';
@@ -62,8 +62,12 @@ const tablePagination = reactive({
 })
 const getList = async () => {
   const res = await listCollectionResult({page: tablePagination.page, size: tablePagination.size, title: title.value})
-  tableData.value = res.data.records
-  tableTotal.value = res.data.total
+  if(res.code === 200) {
+    tableData.value = res.data.records
+    tableTotal.value = res.data.total
+  }else{
+    ElMessage.error(res.message)
+  }
 }
 
 //新增
