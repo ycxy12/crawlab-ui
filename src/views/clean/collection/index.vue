@@ -66,7 +66,7 @@ const getList = async () => {
     tableData.value = res.data.records
     tableTotal.value = res.data.total
   }else{
-    ElMessage.error(res.message)
+    ElMessage.error(res.msg)
   }
 }
 
