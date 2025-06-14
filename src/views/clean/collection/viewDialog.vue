@@ -34,6 +34,15 @@
 						</div>
 					</div>
 				</div>
+				<div class="images" v-if="articleInfo.videos && articleInfo.videos.length > 0">
+					<video :src="articleInfo.videos[activeVideo].url" alt="" class="first" controls />
+					<div>
+						<div>
+							<video v-for="(video, index) in articleInfo.videos" :key="index" :src="video.url" alt=""
+								:class="{ active: activeVideo === index }" @click="handleVideoClick(index)" />
+						</div>
+					</div>
+				</div>
 				<div class="files" v-if="articleInfo.files && articleInfo.files.length > 0">
 					<div class="summary">文件列表</div>
 					<div class="file_list">
@@ -125,6 +134,11 @@ const parseString = (input: any) => {
 const activeImage = ref<number>(0)
 const handleImageClick = (index: number) => {
 	activeImage.value = index
+}
+
+const activeVideo = ref<number>(0)
+const handleVideoClick = (index: number) => {
+	activeVideo.value = index
 }
 
 // 初始化图表配置
@@ -284,16 +298,17 @@ p {
 			align-items: center;
 		}
 
-		img {
+		img, video {
 			flex-shrink: 0;
 			width: 100px;
 			height: 100px;
 			margin-right: 10px;
 			border: 1px solid #a2a9b1;
 			cursor: pointer;
+			object-fit: cover;
 		}
 
-		img:last-child {
+		img:last-child, video:last-child {
 			margin-right: 0;
 		}
 

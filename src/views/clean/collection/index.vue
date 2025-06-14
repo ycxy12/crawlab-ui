@@ -9,6 +9,12 @@
             <cl-nav-action-item>
               <cl-filter-input placeholder="请输入标题" @change="onChange" />
             </cl-nav-action-item>
+            <cl-nav-action-item>
+              <cl-filter-input placeholder="请输入关键字" @change="onChangeKey" />
+            </cl-nav-action-item>
+            <cl-nav-action-item>
+              <cl-filter-input placeholder="请输入来源" @change="onChangeSource" />
+            </cl-nav-action-item>
           </cl-nav-action-group>
         </cl-nav-actions>
       <cl-table
@@ -61,7 +67,7 @@ const tablePagination = reactive({
   size: 10,
 })
 const getList = async () => {
-  const res = await listCollectionResult({page: tablePagination.page, size: tablePagination.size, title: title.value})
+  const res = await listCollectionResult({page: tablePagination.page, size: tablePagination.size, title: title.value, keywords: key.value, source: source.value})
   if(res.code === 200) {
     tableData.value = res.data.records
     tableTotal.value = res.data.total
@@ -194,6 +200,20 @@ const title = ref('')
 const onChange = (value: string) => {
   console.log(value, 'onChange')
   title.value = value
+  getList()
+}
+
+const key = ref('')
+const onChangeKey = (value: string) => {
+  console.log(value, 'onChangeKey')
+  key.value = value
+  getList()
+}
+
+const source = ref('')
+const onChangeSource = (value: string) => { 
+  console.log(value, 'onChangeSource')
+  source.value = value
   getList()
 }
 const stringToArray = (input: any) => {
