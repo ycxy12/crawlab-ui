@@ -35,7 +35,7 @@ const task: LComponentsTask = {
       error: '错误',
       cancelled: '已取消',
       abnormal: '异常',
-      unknown: '未知',
+      unknown: '未执行',
     },
     tooltip: {
       pending: '任务正在队列中待定',
@@ -44,7 +44,7 @@ const task: LComponentsTask = {
       error: '任务发生错误:',
       cancelled: '任务已被取消',
       abnormal: '任务异常终止',
-      unknown: '未知任务状态',
+      unknown: '任务未执行',
     },
   },
   priority: {
@@ -60,14 +60,14 @@ const task: LComponentsTask = {
       allNodes: '所有节点',
       selectedNodes: '指定节点',
       selectedTags: '指定标签',
-      unknown: '未知',
+      unknown: '未执行',
     },
     tooltip: {
       randomNode: '在随机一个节点运行',
       allNodes: '在所有节点运行',
       selectedNodes: '在指定节点运行',
       selectedTags: '在指定标签对应节点运行',
-      unknown: '未知运行模式',
+      unknown: '未执行模式',
     },
   },
   results: {

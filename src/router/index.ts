@@ -15,6 +15,7 @@ import plugin from '@/router/plugin';
 import ds from '@/router/ds';
 import environment from '@/router/environment';
 import system from '@/router/system';
+import stopwords from '@/router/stopwords';
 import misc from '@/router/misc';
 import clean from '@/router/clean';
 import { initRouterAuth } from '@/router/hooks/auth';
@@ -46,6 +47,7 @@ export function getDefaultRoutes(): Array<RouteRecordRaw> {
         ...ds,
         ...environment,
         ...system,
+        ...stopwords,
         ...clean
       ],
     },
@@ -98,6 +100,7 @@ export function getDefaultSidebarMenuItems(): MenuItem[] {
         },
         { path: '/notifications', title: 'router.menuItems.notification', icon: ['fa', 'envelope'] },
         { path: '/environments', title: 'router.menuItems.environment', icon: ['fa', 'percent'] },
+        { path: '/stopwords', title: 'router.menuItems.stopwords', icon: ['fa', 'ban'] },
         { path: '/system', title: 'router.menuItems.system', icon: ['fa', 'cogs'] },
       ]
     },

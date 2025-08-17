@@ -6,6 +6,8 @@ import LineChart from './chart/LineChart.vue';
 import Metric from './chart/Metric.vue';
 import MetricLineChart from './chart/MetricLineChart.vue';
 import PieChart from './chart/PieChart.vue';
+// import CleanForm from './clean/CleanForm.vue';
+// import CreateEditCleanDialog from './clean/CreateEditCleanDialog.vue';
 import ColorPicker from './color/ColorPicker.vue';
 import ContextMenu from './context-menu/ContextMenu.vue';
 import ContextMenuList from './context-menu/ContextMenuList.vue';
@@ -286,4 +288,6 @@ export {
   CreateEditUserDialog as ClCreateEditUserDialog,
   UserForm as ClUserForm,
   UserRole as ClUserRole,
+  // CleanForm as ClCleanForm,
+  // CreateEditCleanDialog as ClCreateEditCleanDialog,
 };

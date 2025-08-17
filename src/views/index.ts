@@ -1,3 +1,13 @@
+// import index from './clean/BasicEditor/index.vue';
+// import CleanAnalysisIndex from './clean/analysis/index.vue';
+// import viewDialog from './clean/analysis/viewDialog.vue';
+// import editClean from './clean/clean/editClean.vue';
+// import CleanCleanIndex from './clean/clean/index.vue';
+// import CleanCleanViewDialog from './clean/clean/viewDialog.vue';
+// import CleanCollectionEditClean from './clean/collection/editClean.vue';
+// import CleanCollectionIndex from './clean/collection/index.vue';
+// import CleanCollectionViewDialog from './clean/collection/viewDialog.vue';
+// import wordsChart from './clean/collection/wordsChart.vue';
 import ResultList from './data/list/ResultList.vue';
 import InstallForm from './deps/components/form/InstallForm.vue';
 import UninstallForm from './deps/components/form/UninstallForm.vue';
@@ -57,6 +67,7 @@ import SpiderDetailTabGitLogs from './spider/detail/tabs/git/SpiderDetailTabGitL
 import SpiderDetailTabGitReferences from './spider/detail/tabs/git/SpiderDetailTabGitReferences.vue';
 import SpiderDetailTabGitRemote from './spider/detail/tabs/git/SpiderDetailTabGitRemote.vue';
 import SpiderList from './spider/list/SpiderList.vue';
+// import StopwordsList from './stopwords/list/StopwordsList.vue';
 import SystemDetail from './system/detail/SystemDetail.vue';
 import TagDetail from './tag/detail/TagDetail.vue';
 import TagDetailTabOverview from './tag/detail/tabs/TagDetailTabOverview.vue';
@@ -75,6 +86,16 @@ import UserDetailTabOverview from './user/detail/tabs/UserDetailTabOverview.vue'
 import UserList from './user/list/UserList.vue';
 
 export {
+  // index as Clindex,
+  // CleanAnalysisIndex as ClCleanAnalysisIndex,
+  // viewDialog as ClviewDialog,
+  // editClean as CleditClean,
+  // CleanCleanIndex as ClCleanCleanIndex,
+  // CleanCleanViewDialog as ClCleanCleanViewDialog,
+  // CleanCollectionEditClean as ClCleanCollectionEditClean,
+  // CleanCollectionIndex as ClCleanCollectionIndex,
+  // CleanCollectionViewDialog as ClCleanCollectionViewDialog,
+  // wordsChart as ClwordsChart,
   ResultList as ClResultList,
   InstallForm as ClInstallForm,
   UninstallForm as ClUninstallForm,
@@ -134,6 +155,7 @@ export {
   SpiderDetailTabGitReferences as ClSpiderDetailTabGitReferences,
   SpiderDetailTabGitRemote as ClSpiderDetailTabGitRemote,
   SpiderList as ClSpiderList,
+  // StopwordsList as ClStopwordsList,
   SystemDetail as ClSystemDetail,
   TagDetail as ClTagDetail,
   TagDetailTabOverview as ClTagDetailTabOverview,
