@@ -59,7 +59,6 @@ export default defineConfig({
       open: true,
       gzipSize: true,
       brotliSize: true,
-      filename: 'dist/stats.html' // 将分析报告输出到 dist 目录
     })
   ],
 
